@@ -36,7 +36,7 @@ var firstCond = function (ExpObj) {
             type: 'html-slider-response-modified',
             stimulus: function () {
                 return '<div style="margin: auto;">' +
-                    '<img src="stimuli/' + ExpObj['index'] + '.jpg" style="width: 500px;" />' +
+                    '<img src="stimuli/' + ExpObj['pic_num'] + '.jpg" style="width: 500px;" />' +
                     '</div>';
             },
             blocks: [
@@ -58,7 +58,7 @@ var firstCond = function (ExpObj) {
             max: 100, min: -100,
             data: function () {
                 return {
-                    Image: ExpObj.index,
+                    Image: ExpObj.pic_num,
                     Valence: parseFloat(ExpObj.mean) > 0 ? 'Positive' : 'Negative'
                 }
             },
@@ -77,7 +77,7 @@ var selfCond = function (ExpObj) {
             type: 'html-slider-response-modified',
             stimulus: function () {
                 return '<div style="margin: auto;">' +
-                    '<img src="stimuli/' + ExpObj.index + '.jpg" style="width: 500px;" />' +
+                    '<img src="stimuli/' + ExpObj.pic_num + '.jpg" style="width: 500px;" />' +
                     '</div>';
             },
             blocks: [
@@ -114,7 +114,7 @@ var selfCond = function (ExpObj) {
             post_trial_gap: 1000,
             data: function () {
                 return {
-                    Image: ExpObj.index,
+                    Image: ExpObj.pic_num,
                     Valence: parseFloat(ExpObj.mean) > 0 ? 'Positive' : 'Negative'
                 };
             }
@@ -128,7 +128,7 @@ var otherCond = function (ExpObj) {
             type: 'html-slider-response-modified',
             stimulus: function () {
                 return '<div style="margin: auto;">' +
-                    '<img src="stimuli/' + ExpObj.index + '.jpg" style="width: 500px;" />' +
+                    '<img src="stimuli/' + ExpObj.pic_num + '.jpg" style="width: 500px;" />' +
                     '</div>';
             },
             blocks: function () {
@@ -167,7 +167,7 @@ var otherCond = function (ExpObj) {
             post_trial_gap: 1000,
             data: function () {
                 return {
-                    Image: ExpObj.index,
+                    Image: ExpObj.pic_num,
                     Valence: parseFloat(ExpObj.mean) > 0 ? 'Positive' : 'Negative'
                 };
             }
@@ -281,7 +281,7 @@ var stage3SinglePerson = function (Person) {
     var finalArray = [fixation];
     for (var i = 0; i < Person.images.length; i++) {
         var cur = Person.images[i];
-        finalArray.push(stage3ShowImage(cur.index, cur.mean, cur.SD, Person.name, Person.cond));
+        finalArray.push(stage3ShowImage(cur.pic_num, cur.mean, cur.SD, Person.name, Person.cond));
     }
     finalArray.push(Stage3RateThisPerson(Person.name));
     return {

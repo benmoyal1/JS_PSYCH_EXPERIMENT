@@ -1,0 +1,15 @@
+const XLSX = require('xlsx');
+const fs = require('fs');
+
+// Load the Excel file
+const workbook = XLSX.readFile('./stimuli_data_YT.xlsx');
+
+// Get the first sheet
+const sheetName = workbook.SheetNames[0];
+const sheet = workbook.Sheets[sheetName];
+
+// Convert the sheet to JSON
+const json = XLSX.utils.sheet_to_json(sheet);
+
+// Write JSON to a file
+fs.writeFileSync('stimuli_data_YT.json', JSON.stringify(json, null, 2));
