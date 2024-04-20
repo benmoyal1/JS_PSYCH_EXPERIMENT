@@ -227,32 +227,9 @@
         },
       ];   
 
-       /* timeline = [firstSlide, secondSlide, thirdSlide, thirdSlide1, thirdSlide2,
-       fourthSlide, fifthSlide, fifthSlide1, sixthSlide, Stage1Full,
-       calculateFirstCondDiffenece, seventhSlide, seventhSlide1, selfCond(examples[0]),
-           otherCond(examples[1]),  seventhSlide2,
-        Stage2Full, eightSlide, Stage3Full, ninethSlide]; */
-      // timeline = [firstSlide,secondSlideMale,Stage1Full,thirdSlideMale,Stage2Full,forthSlideMale,fifthSlideMale]  
-      function initTimeline(gender){
-        timeline = gender == "male" ? 
-      [firstSlide,secondSlideMale,Stage1Full,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        : [firstSlide,secondSlideFemale,Stage1Full,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-        return timeline 
-      }
-      function startExperiment(gender){
-      var timeline = initTimeline(gender);
-      jsPsych.init({
-        timeline: timeline,
-        preload_images: IMAGES_TO_LOAD,
-        on_finish: function() {
-          /* TODO handle data inserting to db*/
-          var data = jsPsych.data.get().json();
-          pushToDB(data);
-        }
-      });}
+
       document.getElementById("genderForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent default form submission behavior
-      
         // Get user's gender selection
         var gender = document.querySelector('input[name="gender"]:checked').value;
         console.log(gender);
