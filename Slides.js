@@ -59,7 +59,7 @@ var firstCond = function (ExpObj) {
             data: function () {
                 return {
                     Image: ExpObj.pic_num,
-                    Valence: parseFloat(ExpObj.mean) > 0 ? 'Positive' : 'Negative'
+                    Valence: parseFloat(ExpObj.Mean) > 0 ? 'Positive' : 'Negative'
                 }
             },
             post_trial_gap: 1000,
@@ -115,7 +115,7 @@ var selfCond = function (ExpObj) {
             data: function () {
                 return {
                     Image: ExpObj.pic_num,
-                    Valence: parseFloat(ExpObj.mean) > 0 ? 'Positive' : 'Negative'
+                    Valence: parseFloat(ExpObj.Mean) > 0 ? 'Positive' : 'Negative'
                 };
             }
         }]}
@@ -158,7 +158,7 @@ var otherCond = function (ExpObj) {
                         locked: true,
                         key_press: 'space',
                         slider_color: 'red',
-                        start: calculateFeedback(ExpObj.mean, ExpObj.SD)
+                        start: calculateFeedback(ExpObj.Mean, ExpObj.SD)
                     },
                 ]
             },
@@ -168,7 +168,7 @@ var otherCond = function (ExpObj) {
             data: function () {
                 return {
                     Image: ExpObj.pic_num,
-                    Valence: parseFloat(ExpObj.mean) > 0 ? 'Positive' : 'Negative'
+                    Valence: parseFloat(ExpObj.Mean) > 0 ? 'Positive' : 'Negative'
                 };
             }
         }]
@@ -281,7 +281,7 @@ var stage3SinglePerson = function (Person) {
     var finalArray = [fixation];
     for (var i = 0; i < Person.images.length; i++) {
         var cur = Person.images[i];
-        finalArray.push(stage3ShowImage(cur.pic_num, cur.mean, cur.SD, Person.name, Person.cond));
+        finalArray.push(stage3ShowImage(cur.pic_num, cur.Mean, cur["Std. Deviation"], Person.name, Person.cond));
     }
     finalArray.push(Stage3RateThisPerson(Person.name));
     return {
