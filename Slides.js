@@ -1,13 +1,13 @@
 ﻿//The texts to be presented
-const pleaseRespondText = 'How did the picture make you feel?';
+const pleaseRespondText = '?איך התמונה גרמה לך להרגיש';
 const howDidTheyRespondText = function (name) {
-    return 'How did the picture make ' + name + ' feel?';
+    return 'איך התמונה גרמה ל ' + name + ' להרגיש?';
 };
 const howTheyRatedText = function (name) {
-    return name + ' felt:';
+    return name + ' הרגיש:';
 };
-const thisIsYourResponseText = 'YOU felt:';
-const answerTheQuestions = 'Please answer the following questions:';
+const thisIsYourResponseText = 'אתה הרגשת';
+const answerTheQuestions = 'ענו בבקשה על השאלה הזאת';
 const rateLikablility = function (name) {
     return 'How likable is ' + name + '?';
 };
@@ -22,7 +22,7 @@ const rateCompenetce = function (name) {
 var fixation = {
     type: 'html-keyboard-response',
     stimulus: '<div style="position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);">' +
-        '<span style="font-size: 200px"><b>+</b></span>' +
+        '<span style="font-size: 5vw"><b>+</b></span>' + // Adjust font-size using viewport units
         '</div>',
     choices: jsPsych.NO_KEYS,
     trial_duration: 750,
@@ -35,9 +35,9 @@ var firstCond = function (ExpObj) {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
             stimulus: function () {
-                return '<div style="margin: auto;">' +
-                    '<img src="stimuli/' + ExpObj['pic_num'] + '.jpg" style="width: 500px;" />' +
-                    '</div>';
+            return '<div style="margin: auto; width: 100%; text-align: center;">' +
+                '<img src="stimuli/' + ExpObj['pic_num'] + '.jpg" style="max-width: 100%; max-height: 80vh;" />' +
+                '</div>';
             },
             blocks: [
                 {
@@ -158,7 +158,7 @@ var otherCond = function (ExpObj) {
                         locked: true,
                         key_press: 'space',
                         slider_color: 'red',
-                        start: calculateFeedback(ExpObj.Mean, ExpObj.SD)
+                        start: calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"])
                     },
                 ]
             },
@@ -196,6 +196,7 @@ var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond) 
                     slider: true,
                     locked: true,
                     start: calculateFeedback(ImageMean, ImageSD, PersonCond),
+                    slider_color: 'red',
                     key_press: 'space',
                     require_response: false,
                 }

@@ -158,9 +158,9 @@
     <form id="genderForm">
       <label for="gender">?איך היית רוצה שיתייחסו אליך בניסוי</label><br>
       <input type="radio" id="male" name="gender" value="male">
-      <label for="male">כגבר</label><br>
+      <label for="male">בלשון זכר</label><br>
       <input type="radio" id="female" name="gender" value="female">
-      <label for="female">כאישה</label><br>
+      <label for="female">בלשון נקבה</label><br>
       <input type="submit" value="בחר\י">
     </form>
     <script>
@@ -174,12 +174,7 @@
       for (var i = 0; i < allImages.length; i++) {
         IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
       }
-      /* if i need to change Stage one to have red feeedback after 
-      change the 
-        Stage1Timeline.push(firstCond(stage1Objects[i]));
-      line to 
-        Stage1Timeline.push(selfCond(stage1Objects[i]));
-        */
+
       //initializing the exp, not using timeline vars due to unknown problem
       Stage1Timeline = [];
       for (var i = 0; i < stage1Objects.length; i++) {
@@ -207,6 +202,7 @@
       var Stage3Full = {
         timeline: stage3Timeline,
       };
+
       examples = [
         {
           index: "exm1",
