@@ -177,14 +177,25 @@
       }
 
 
-
+      // this funciton starts the experiment
+      function startExperiment(gender){
+      var timeline = initTimeline(gender);
+      jsPsych.init({
+        timeline: timeline,
+        preload_images: IMAGES_TO_LOAD,
+        on_finish: function() {
+        var data = jsPsych.data.get().json();
+        pushToDB(data);
+        }
+      });}
 
       document.getElementById("genderForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent default form submission behavior
         // Get user's gender selection
         var gender = document.querySelector('input[name="gender"]:checked').value;
         // Start the experiment with the collected gender data
-        startExperiment(gender);
+        var exp_data = startExperiment(gender);
+
       });
     
     </script>
