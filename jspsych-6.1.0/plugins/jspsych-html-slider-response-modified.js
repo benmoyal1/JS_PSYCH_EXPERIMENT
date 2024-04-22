@@ -177,10 +177,15 @@ jsPsych.plugins['html-slider-response-modified'] = (function() {
             html += '<span style="text-align: center; font-size: 80%;" dir="ltr">'+trial.labels[j]+'</span>';
             html += '</div>'
         };
-        html += '<div style="font-size: 20px%; height:20px; position: relative;">Selected value<br><span  id="slider-value" dir="ltr"></span></div>';
+        // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ //
+        // html += '<div style="font-size: 20px%; height:20px; position: relative;">Selected value<br><span  id="slider-value" dir="ltr"></span></div>';
+        html += '<div style="font-size: 20px%; height:20px; position: relative;">הערך הנבחר<br><span  id="slider-value" dir="ltr"></span></div>';
+        
         html += '</div>';
         html += '</div>';
-        html += '<div id="additional-messages" style="visibility: hidden;"><div style="position: relative; top:0%; height:25px;" id="press-space">Press the spacebar to continue</div>';
+        html += '<div id="additional-messages" style="visibility: hidden;"><div style="position: relative; top:0%; height:20px;" id="press-space">כדי להמשיך יש ללחוץ על מקש הרווח</div>';
+        //  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ //
+        // html += '<div id="additional-messages" style="visibility: hidden;"><div style="position: relative; top:0%; height:25px;" id="press-space">Press the spacebar to continue</div>';
         html += '<div style="position: relative; top:0%; height:25px;" id="error-msg"></div></div>';
         html += '</div>';
         html += '</div>';

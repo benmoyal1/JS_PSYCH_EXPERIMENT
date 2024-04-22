@@ -1,28 +1,57 @@
 ﻿//The texts to be presented
-const pleaseRespondText = '?איך התמונה גרמה לך להרגיש';
+const pleaseRespondText = '?איך התמונה גורמת לך להרגיש';
+
 const howDidTheyRespondText = function (name) {
-    return 'איך התמונה גרמה ל ' + name + ' להרגיש?';
+
+    return  '?להרגיש ' + name + 'איך התמונה גרמה ל ';
 };
-const howTheyRatedText = function (name) {
-    return name + ' הרגיש:';
-};
-const thisIsYourResponseText = 'אתה הרגשת';
-const answerTheQuestions = 'ענו בבקשה על השאלה הזאת';
-const rateLikablility = function (name) {
-    return 'How likable is ' + name + '?';
-};
-const rateTrustworthiness = function (name) {
-    return 'How trustworthy is ' + name + '?';
-};
-const rateCompenetce = function (name) {
-    return 'How competent is ' + name + '?';
+const howTheyRatedText = function (name,gender) {
+    var felt = gender == "male"? ":הרגיש" :":הרגישה"
+    return felt + " " + name  ;
 };
 
+function thisIsYourResponseText(gender){
+    response = gender =="male"? ":אתה הרגשת" : ":את הרגשת" 
+    return response;
+}
+const answerTheQuestions = 'ענו בבקשה על השאלה הזאת';
+
+function rateLikablility (name,gender) {
+    var liked = gender == 'male' ? "אהוב" : " אהובה";
+    return name + " כמה " + liked + "?" ;
+}
+const rateTrustworthiness = function (name, gender) {
+    var liked = gender == 'male' ? "אמין" : " אמינה";
+    return name + " כמה " + liked + "?" ;
+};
+const rateCompenetce = function (name, gender) {
+        var liked = gender == 'male' ? "בעל מסוגלות" : " בעלת מסוגלות";
+        return name + " כמה " + liked + "?" ;
+    };
+
+// adjusting two JSPSYCH default  divs content to hebrew selected value of slider
+// and continue with space default text
+function ret_fun(gender){
+    const changeDefaultSpaceMessageHTML = function () {
+        // Check if the additionalMessages element exists
+        var additionalMessages = document.getElementById('additional-messages');
+        if (additionalMessages) {
+            // Select the press-space message within additionalMessages
+            var pressSpaceMessage = additionalMessages.querySelector('#press-space');
+        
+            if (pressSpaceMessage) {
+                // Modify the text content of the press-space message based on gender
+                var press = gender == "male" ? "לחץ" : "לחצי";
+                pressSpaceMessage.textContent = press + ' על מקש הרווח כדי להמשיך '  ;
+            }
+        }}
+        return changeDefaultSpaceMessageHTML;
+}
 //Fixation slide
 var fixation = {
     type: 'html-keyboard-response',
     stimulus: '<div style="position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);">' +
-        '<span style="font-size: 5vw"><b>+</b></span>' + // Adjust font-size using viewport units
+        '<span style="font-size: 5vw"><b>+</b></span>' + 
         '</div>',
     choices: jsPsych.NO_KEYS,
     trial_duration: 750,
@@ -30,20 +59,22 @@ var fixation = {
     data: {test_part: 'fixation'}
 };
 
-var firstCond = function (ExpObj) {
+
+var firstCond = function (ExpObj,gender) {
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
             stimulus: function () {
             return '<div style="margin: auto; width: 100%; text-align: center;">' +
-                '<img src="stimuli/' + ExpObj['pic_num'] + '.jpg" style="max-width: 100%; max-height: 80vh;" />' +
+                '<img src="stimuli/' + ExpObj['pic_num'] + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
                 '</div>';
             },
+            on_load : ret_fun(gender),
             blocks: [
                 {
                     text: '',
-                    slider: false,
-                    locked: false,
+                    // slider: false,
+                    // locked: false,
                     duration: PRE_TRIAL_BREAK
                 },
                 {
@@ -71,7 +102,7 @@ var firstCond = function (ExpObj) {
 };
     
 
-var selfCond = function (ExpObj) {
+var selfCond = function (ExpObj,gender) {
     return {
         timeline: [fixation,{
             type: 'html-slider-response-modified',
@@ -80,6 +111,7 @@ var selfCond = function (ExpObj) {
                     '<img src="stimuli/' + ExpObj.pic_num + '.jpg" style="width: 500px;" />' +
                     '</div>';
             },
+            on_load: ret_fun(gender),
             blocks: [
                 {
                     text: '',
@@ -101,7 +133,7 @@ var selfCond = function (ExpObj) {
                     duration: 1000
                 },
                 {
-                    text: thisIsYourResponseText,
+                    text: thisIsYourResponseText(gender),
                     slider: true,
                     locked: true,
                     key_press: 'space',
@@ -122,7 +154,7 @@ var selfCond = function (ExpObj) {
 };
 
 
-var otherCond = function (ExpObj) {
+var otherCond = function (ExpObj,gender) {
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
@@ -131,6 +163,7 @@ var otherCond = function (ExpObj) {
                     '<img src="stimuli/' + ExpObj.pic_num + '.jpg" style="width: 500px;" />' +
                     '</div>';
             },
+            on_load: ret_fun(gender),
             blocks: function () {
                 return [
                     {
@@ -153,7 +186,7 @@ var otherCond = function (ExpObj) {
                         duration: 1000
                     },
                     {
-                        text: howTheyRatedText(ExpObj.name),
+                        text: howTheyRatedText(ExpObj.name,gender),
                         slider: true,
                         locked: true,
                         key_press: 'space',
@@ -176,7 +209,7 @@ var otherCond = function (ExpObj) {
 };
 
 
-var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond) {
+var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond,gender) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
@@ -184,6 +217,7 @@ var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond) 
                 '<img src="stimuli/' + ImageInd + '.jpg" style="width: 500px;" />' +
                 '</div>';
         },
+        on_load: ret_fun(gender),
         blocks: [
                 {
                     text: '',
@@ -192,7 +226,7 @@ var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond) 
                     duration: PRE_TRIAL_BREAK
                 },
                 {
-                    text: howTheyRatedText(Name),
+                    text: howTheyRatedText(Name,gender),
                     slider: true,
                     locked: true,
                     start: calculateFeedback(ImageMean, ImageSD, PersonCond),
@@ -213,7 +247,7 @@ var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond) 
 };
 
 
-var Stage3RateThisPerson = function (Name) {
+var Stage3RateThisPerson = function (Name,gender) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
@@ -221,7 +255,8 @@ var Stage3RateThisPerson = function (Name) {
                 answerTheQuestions +
                 '</div>';
         },
-        blocks: [
+        on_load: ret_fun(gender),
+            blocks: [
                 {
                     text: '',
                     slider: false,
@@ -229,7 +264,7 @@ var Stage3RateThisPerson = function (Name) {
                     duration: PRE_TRIAL_BREAK
                 },
                 {
-                    text: rateLikablility(Name),
+                    text: rateLikablility(Name,gender),
                     slider: true,
                     locked: false,
                     start: 50,
@@ -243,7 +278,7 @@ var Stage3RateThisPerson = function (Name) {
                     duration: PRE_TRIAL_BREAK
                 },
                 {
-                    text: rateTrustworthiness(Name),
+                    text: rateTrustworthiness(Name,gender),
                     slider: true,
                     locked: false,
                     start: 50,
@@ -257,7 +292,7 @@ var Stage3RateThisPerson = function (Name) {
                     duration: PRE_TRIAL_BREAK
                 },
                 {
-                    text: rateCompenetce(Name),
+                    text: rateCompenetce(Name,gender),
                     slider: true,
                     locked: false,
                     start: 50,
@@ -278,13 +313,13 @@ var Stage3RateThisPerson = function (Name) {
 };
 
 
-var stage3SinglePerson = function (Person) {
+var stage3SinglePerson = function (Person,gender) {
     var finalArray = [fixation];
     for (var i = 0; i < Person.images.length; i++) {
         var cur = Person.images[i];
-        finalArray.push(stage3ShowImage(cur.pic_num, cur.Mean, cur["Std. Deviation"], Person.name, Person.cond));
+        finalArray.push(stage3ShowImage(cur.pic_num, cur.Mean, cur["Std. Deviation"], Person.name, Person.cond,gender));
     }
-    finalArray.push(Stage3RateThisPerson(Person.name));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender));
     return {
         timeline: finalArray
     }

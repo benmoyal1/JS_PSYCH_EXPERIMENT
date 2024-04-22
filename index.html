@@ -18,7 +18,7 @@
       const FASTMODE = true;
 
       //Waiting durations
-      const PRE_TRIAL_BREAK = FASTMODE ? 500 : 5000;
+      const PRE_TRIAL_BREAK = FASTMODE ? 5 : 5000;
 
       //Choosing condition randomly, -1 = extreme, 1 = moderate
       const Condition = Math.floor(Math.random() * 2) == 0 ? -1 : 1;
@@ -117,6 +117,7 @@
     <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
 
     <script src="dbHandler.js"></script>
+    <script src="experimentLoad.js"></script>
     <script src="logic.js"></script>
     <script src="Slides.js"></script>
     <script src="instruction_slides.js"></script>
@@ -175,60 +176,13 @@
         IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
       }
 
-      //initializing the exp, not using timeline vars due to unknown problem
-      Stage1Timeline = [];
-      for (var i = 0; i < stage1Objects.length; i++) {
-        Stage1Timeline.push(firstCond(stage1Objects[i]));
-      }
-      var Stage1Full = {
-        timeline: Stage1Timeline,
-      };
 
-      Stage2Timeline = [];
-      for (var i = 0; i < stage2Objects.self.length; i++) {
-        Stage2Timeline.push(
-          selfCond(stage2Objects.self[i]),
-          otherCond(stage2Objects.other[i])
-        );
-      }
-      var Stage2Full = {
-        timeline: Stage2Timeline,
-      };
-
-       var stage3Timeline = []; 
-      for (var i = 0; i < stage3Object.length; i++) {
-        stage3Timeline.push(stage3SinglePerson(stage3Object[i]));
-      }
-      var Stage3Full = {
-        timeline: stage3Timeline,
-      };
-
-      examples = [
-        {
-          index: "exm1",
-          N: "57",
-          min: "-21.00",
-          max: "100.00",
-          mean: "0",
-          SD: "0",
-        },
-        {
-          index: "exm2",
-          N: "57",
-          min: "-100.00",
-          max: "84.00",
-          mean: "0",
-          SD: "0",
-          name: "Roy Boy",
-        },
-      ];   
 
 
       document.getElementById("genderForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent default form submission behavior
         // Get user's gender selection
         var gender = document.querySelector('input[name="gender"]:checked').value;
-        console.log(gender);
         // Start the experiment with the collected gender data
         startExperiment(gender);
       });

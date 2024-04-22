@@ -71,23 +71,3 @@ var fifthSlideMale = {
     choices: ['space']
 };
 
-// filling the timeline according to gender - important since the instructions are 
-// to male or female
-function initTimeline(gender){
-    timeline = gender == "male" ? 
-  [firstSlide,secondSlideMale,Stage1Full,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-    : [firstSlide,secondSlideFemale,Stage1Full,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-    return timeline 
-  }
-// this funciton starts the experiment
-function startExperiment(gender){
-var timeline = initTimeline(gender);
-jsPsych.init({
-    timeline: timeline,
-    preload_images: IMAGES_TO_LOAD,
-    on_finish: function() {
-    /* TODO handle data inserting to db*/
-    var data = jsPsych.data.get().json();
-    pushToDB(data);
-    }
-});}
