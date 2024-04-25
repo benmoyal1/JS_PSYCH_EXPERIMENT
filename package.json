@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "aws-sdk": "^2.1603.0",
-    "csvtojson": "^2.0.10",
-    "xlsx": "^0.18.5"
+    "aws-sdk": "^2.1605.0",
+    "dotenv": "^16.4.5"
   }
 }

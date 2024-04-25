@@ -115,8 +115,7 @@
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response-modified.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
-
-    <script src="dbHandler.js"></script>
+    
     <script src="experimentLoad.js"></script>
     <script src="logic.js"></script>
     <script src="Slides.js"></script>
@@ -176,6 +175,21 @@
         IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
       }
 
+      async function sendDataToServer(data) {
+    try {
+        const response = await fetch('https://express-backend-exp.vercel.app/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: data })
+        });
+        const result = await response.json(); // Parse response as JSON
+        console.log(result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
       // this funciton starts the experiment
       function startExperiment(gender){
@@ -184,8 +198,16 @@
         timeline: timeline,
         preload_images: IMAGES_TO_LOAD,
         on_finish: function() {
-        var data = jsPsych.data.get().json();
-        pushToDB(data);
+        var expData = jsPsych.data.get();
+        // sendDataToServer(data);
+        const jsonData = [
+    { name: 'John', age: 30, city: 'New York' },
+    { name: 'Alice', age: 25, city: 'Los Angeles' },
+    { name: 'Bob', age: 35, city: 'Chicago' }
+];
+        sendDataToServer(jsonData);
+
+
         }
       });}
 
@@ -194,7 +216,7 @@
         // Get user's gender selection
         var gender = document.querySelector('input[name="gender"]:checked').value;
         // Start the experiment with the collected gender data
-        var exp_data = startExperiment(gender);
+        startExperiment(gender);
 
       });
     
