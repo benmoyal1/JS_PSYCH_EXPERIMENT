@@ -140,7 +140,6 @@
         gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
           : jsPsych.randomization.repeat(F_names, 1);
-        console.log(names);
         //Create experiment objects
         var stage1Objects = FASTMODE
           ? [TRAINING_NEG_IMAGES_OBJS[0], TRAINING_POS_IMAGES_OBJS[0]]
@@ -199,12 +198,12 @@
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
-        timeline = gender == "male" ?
-          [firstSlide,secondSlideMale,Stage1Full,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        :[firstSlide,secondSlideFemale,Stage1Full,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+        // let timeline = gender == "male" ?
+        //   [firstSlide,secondSlideMale,Stage1Full,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        // :[firstSlide,secondSlideFemale,Stage1Full,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
-
-              //Load Images
+        var timeline = [Stage3Full]
+        //Load Images
       var allImages = POSITIVE_IMAGES_OBJS.concat(NEGATIVE_IMAGES_OBJS)
       .concat(TRAINING_NEG_IMAGES_OBJS)
       .concat(TRAINING_POS_IMAGES_OBJS);
@@ -217,7 +216,7 @@
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
           on_finish: function() {
-          var expData = jsPsych.data.get();
+          var expData = jsPsych.data.get().json();
           console.log(sendDataToServer(expData));
           }
         });}
