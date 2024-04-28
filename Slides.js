@@ -3,31 +3,35 @@ const pleaseRespondText = '?איך התמונה גורמת לך להרגיש';
 
 const howDidTheyRespondText = function (name) {
 
-    return  '?להרגיש ' + name + 'איך התמונה גרמה ל ';
+    return  `?איך התמונה גרמה ל${name} להרגיש`;
 };
 const howTheyRatedText = function (name,gender) {
-    var felt = gender == "male"? ":הרגיש" :":הרגישה"
-    return felt + " " + name  ;
+    var felt = gender == "male"? "הרגיש" :"הרגישה"
+    return `:${name} ${felt}`;
 };
 
 function thisIsYourResponseText(gender){
     response = gender =="male"? ":אתה הרגשת" : ":את הרגשת" 
     return response;
 }
-const answerTheQuestions = 'ענו בבקשה על השאלה הזאת';
+const answerTheQuestions = 'ענו על השאלה';
 
 function rateLikablility (name,gender) {
     var liked = gender == 'male' ? "אהוב" : " אהובה";
-    return name + " כמה " + liked + "?" ;
+    return `?כמה ${liked} ${name}` ;
 }
 const rateTrustworthiness = function (name, gender) {
-    var liked = gender == 'male' ? "אמין" : " אמינה";
-    return name + " כמה " + liked + "?" ;
+    var trustworthy = gender == 'male' ? "אמין" : " אמינה";
+    return `?כמה ${trustworthy} ${name}` ;
+
 };
 const rateCompenetce = function (name, gender) {
-        var liked = gender == 'male' ? "בעל מסוגלות" : " בעלת מסוגלות";
-        return name + " כמה " + liked + "?" ;
+        var competent = gender == 'male' ? "בעל מסוגלות" : " בעלת מסוגלות";
+    return `?כמה ${competent} ${name}` ;
+
     };
+
+const scaleLabel =  ['-100<br> שלילי מאוד', '100<br> חיובי מאוד']
 
 // adjusting two JSPSYCH default  divs content to hebrew selected value of slider
 // and continue with space default text
@@ -87,7 +91,7 @@ var firstCond = function (ExpObj,gender) {
                     require_response: true
                 }
             ],
-            labels: ['-100', '100'],
+            labels: scaleLabel,
             max: 100, min: -100,
             data: function () {
                 return {
@@ -143,7 +147,7 @@ var selfCond = function (ExpObj,gender) {
                     start: '$1$'
                 },
             ],
-            labels: ['-100<br>Very negative', '100<br>Very positive'],
+            labels: scaleLabel,
             max: 100, min: -100,
             post_trial_gap: 1000,
             data: function () {
@@ -197,7 +201,7 @@ var otherCond = function (ExpObj,gender) {
                     },
                 ]
             },
-            labels: ['-100<br>Very negative', '100<br>Very positive'],
+            labels: scaleLabel,
             max: 100, min: -100,
             post_trial_gap: 1000,
             data: function () {
@@ -237,7 +241,7 @@ var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond,g
                     require_response: false,
                 }
             ],
-        labels: ['-100<br>Very negative', '100<br>Very positive'],
+        labels: scaleLabel,
         max: 100, min: -100,
         post_trial_gap: 1000,
         data: function () {
@@ -302,7 +306,7 @@ var Stage3RateThisPerson = function (Name,gender) {
                     require_response: false
                 }
             ],
-        labels: ['not at all', 'Extremely'],
+        labels: ['בכלל לא', 'מאוד'],
         max: 100, min: 0,
         post_trial_gap: 1000,
         slider_dir: 'ltr',
