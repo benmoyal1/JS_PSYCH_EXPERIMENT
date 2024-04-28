@@ -49,7 +49,10 @@ function ret_fun(gender){
                 pressSpaceMessage.textContent = press + ' על מקש הרווח כדי להמשיך '  ;
             }
 
-        }}
+        
+        }
+        document.body.style.focus = 'none';
+        }
         return changeDefaultSpaceMessageHTML;
 }
 //Fixation slide
