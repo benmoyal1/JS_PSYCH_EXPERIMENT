@@ -216,8 +216,10 @@
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
           on_finish: function() {
-          var expData = jsPsych.data.get().json();
-          console.log(sendDataToServer(expData));
+          var expData = jsPsych.data.get();
+          // Filter trials of type "html-slider-response-modified"
+          var filteredData = expData.filter({ trial_type: 'html-slider-response-modified' });
+          console.log(sendDataToServer(filteredData));
           }
         });}
 
