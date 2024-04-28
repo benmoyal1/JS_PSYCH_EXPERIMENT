@@ -126,7 +126,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ data: data })
+            body: JSON.stringify({ "data": data })
         });
         const result = await response.json(); // Parse response as JSON
         console.log(result);
@@ -216,11 +216,8 @@
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
           on_finish: function() {
-          var expData = jsPsych.data.get();
-          // Filter trials of type "html-slider-response-modified"
-          var filteredData = expData.filter({ type: 'html-slider-response-modified'});
-          console.log(filteredData);
-          // console.log(sendDataToServer(filteredData));
+            var expData = jsPsych.data.get().filter({trial_type: 'html-slider-response-modified'});
+          console.log(sendDataToServer(expData));
           }
         });}
 
