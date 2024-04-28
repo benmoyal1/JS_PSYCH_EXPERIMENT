@@ -137,10 +137,10 @@
       // this funciton starts the experiment
       function startExperiment(gender){
         const names =
-        gender == "Male"
+        gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
           : jsPsych.randomization.repeat(F_names, 1);
-
+        console.log(names);
         //Create experiment objects
         var stage1Objects = FASTMODE
           ? [TRAINING_NEG_IMAGES_OBJS[0], TRAINING_POS_IMAGES_OBJS[0]]
