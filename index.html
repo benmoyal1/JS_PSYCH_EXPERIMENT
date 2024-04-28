@@ -218,8 +218,9 @@
           on_finish: function() {
           var expData = jsPsych.data.get();
           // Filter trials of type "html-slider-response-modified"
-          var filteredData = expData.filter({ trial_type: 'html-slider-response-modified' });
-          console.log(sendDataToServer(filteredData));
+          var filteredData = expData.filter({ type: 'html-slider-response-modified'});
+          console.log(filteredData);
+          // console.log(sendDataToServer(filteredData));
           }
         });}
 
