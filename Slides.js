@@ -48,10 +48,10 @@ function ret_fun(gender){
                 var press = gender == "male" ? "לחץ" : "לחצי";
                 pressSpaceMessage.textContent = press + ' על מקש הרווח כדי להמשיך '  ;
             }
-
         
         }
-        document.body.style.focus = 'none';
+        document.body.style.focus  = 'none';
+        // var sliderHandle = document.querySelector('.slider::-webkit-slider-thumb');
         }
         return changeDefaultSpaceMessageHTML;
 }
@@ -78,7 +78,6 @@ var firstCond = function (ExpObj,gender) {
                 '</div>';
             },
             on_load : ret_fun(gender),
-            
             blocks: [
                 {
                     text: '',
