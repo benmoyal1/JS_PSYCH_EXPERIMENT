@@ -45,7 +45,7 @@ function initTimeline(gender){
     timeline = gender == "male" ?
         [firstSlide,secondSlideMale,Stage1Full,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
        :[firstSlide,secondSlideFemale,Stage1Full,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-  return timeline;
+  // return timeline;
   return [Stage3Full];
 }
 
