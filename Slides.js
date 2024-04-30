@@ -10,6 +10,9 @@ const howTheyRatedText = function (name,gender) {
     return `:${name} ${felt}`;
 };
 
+const averageResponseWas = function (name) {
+    return `:התגובה הממוצעת של ${name} הייתה`
+};
 function thisIsYourResponseText(gender){
     response = gender =="male"? ":אתה הרגשת" : ":את הרגשת" 
     return response;
@@ -31,7 +34,8 @@ const rateCompenetce = function (name, gender) {
 
     };
 
-const scaleLabel =  ['-100<br> שלילי מאוד', '100<br> חיובי מאוד']
+const scaleLabel =  ['-100<br> רע מאוד', '100<br> טוב מאוד']
+const redScaleLabel = scaleLabel.map(label => '<span style="color: red;">' + label + '</span>');
 
 // adjusting two JSPSYCH default  divs content to hebrew selected value of slider
 // and continue with space default text
@@ -51,7 +55,27 @@ function ret_fun(gender){
         
         }
         document.body.style.focus  = 'none';
-        // var sliderHandle = document.querySelector('.slider::-webkit-slider-thumb');
+        }
+        return changeDefaultSpaceMessageHTML;
+}
+
+function retForFeedback(gender){
+    const changeDefaultSpaceMessageHTML = function () {
+        // Check if the additionalMessages element exists
+        var additionalMessages = document.getElementById('additional-messages');
+        if (additionalMessages) {
+            // Select the press-space message within additionalMessages
+            var pressSpaceMessage = additionalMessages.querySelector('#press-space');
+            if (pressSpaceMessage) {
+                // Modify the text content of the press-space message based on gender
+                var press = gender == "male" ? "לחץ" : "לחצי";
+                pressSpaceMessage.textContent = press + ' על מקש הרווח כדי להמשיך '  ;
+            }
+            var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
+            // var divs = jspsychHtmlDiv.querySelectorAll('div')[3];
+            var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
+            sliderValueSpan.style.display = 'none';        
+        }
         }
         return changeDefaultSpaceMessageHTML;
 }
@@ -68,21 +92,69 @@ var fixation = {
 };
 
 
-var firstCond = function (ExpObj,gender) {
+
+var feedbackScreen = function(picNum,gender,text){
+    return {
+            type: 'html-slider-response-modified',
+            stimulus: function () {
+            return '<div style="margin: auto; width: 100%; text-align: center;">' +
+                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
+                '</div>'
+            },
+            on_load : retForFeedback(gender),
+            on_start:retForFeedback(gender),
+            blocks: function(){              
+                var expValues = jsPsych.data.get().values()
+                var trialIndex = expValues.length;
+                var trialData = expValues[trialIndex - 1].response
+                var trialResponse = trialData[1].slider  
+                return [
+                    {
+                        text: '',
+                        slider: false,
+                        locked: false,
+                        duration: 1000
+                    },
+                    {
+                        text: '<div style="text-align: center; color: red;">' +
+                        '<div>' + text + '</div>' +
+                        '<div>'+ trialResponse + '</div>' +
+                      '</div>',
+                        slider: true,
+                        locked: true,
+                        key_press: 'space',
+                        text_color:'red',
+                        slider_color: 'red',
+                        start:trialResponse,
+                    },
+                ];
+            },
+            labels: redScaleLabel,
+            max: 100, min: -100,
+            post_trial_gap: 1000,    
+        }
+    };
+
+
+var firstCond = function (ExpObj,gender,stage) {
+    var picNum = ExpObj.pic_num;
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
             stimulus: function () {
             return '<div style="margin: auto; width: 100%; text-align: center;">' +
-                '<img src="stimuli/' + ExpObj['pic_num'] + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
+                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
                 '</div>';
             },
             on_load : ret_fun(gender),
+            on_start:function (){
+                document.body.tabIndex = -1; 
+            },
             blocks: [
                 {
                     text: '',
-                    // slider: false,
-                    // locked: false,
+                    slider: false,
+                    locked: false,
                     duration: PRE_TRIAL_BREAK
                 },
                 {
@@ -90,85 +162,83 @@ var firstCond = function (ExpObj,gender) {
                     slider: true,
                     locked: false,
                     key_press: 'space',
-                    require_response: true
-                }
+                    require_response: true,
+                },
+
             ],
             labels: scaleLabel,
             max: 100, min: -100,
-            data: function () {
-                return {
-                    Image: ExpObj.pic_num,
-                    Valence: parseFloat(ExpObj.Mean) > 0 ? 'Positive' : 'Negative'
-                }
-            },
-            post_trial_gap: 1000,
+            // post_trial_gap: 1000,
             on_finish: function (data) {
-                firstCondResponses[data.Valence].push(data.response[1].slider);
+                var trialResponse = data.response[1].slider; // trial response
+                var trialResultObject = {
+                    gender : gender,
+                    stage:stage,
+                    imageNum:ExpObj.pic_num,
+                    PredictionOrSelf:"Self Rating",
+                    response :trialResponse,
+                }
+                if(stage ==1){firstCondResponses.push(trialResponse);}
+                experimentResult.push(trialResultObject);
+                console.log(trialResultObject);
             }
-        }]
+        },feedbackScreen(picNum,gender,thisIsYourResponseText(gender))]
     };
 };
-    
 
-var selfCond = function (ExpObj,gender) {
+
+
+
+var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
     return {
-        timeline: [fixation,{
             type: 'html-slider-response-modified',
             stimulus: function () {
-                return '<div style="margin: auto;">' +
-                    '<img src="stimuli/' + ExpObj.pic_num + '.jpg" style="width: 500px;" />' +
-                    '</div>';
+            return '<div style="margin: auto; width: 100%; text-align: center;">' +
+                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
+                '</div>'
             },
-            on_load: ret_fun(gender),
-            blocks: [
-                {
-                    text: '',
-                    slider: false,
-                    locked: false,
-                    duration: PRE_TRIAL_BREAK
-                },
-                {
-                    text: pleaseRespondText,
-                    slider: true,
-                    locked: false,
-                    key_press: 'space',
-                    require_response: true
-                },
-                {
-                    text: '',
-                    slider: false,
-                    locked: false,
-                    duration: 1000
-                },
-                {
-                    text: thisIsYourResponseText(gender),
-                    slider: true,
-                    locked: true,
-                    key_press: 'space',
-                    slider_color: 'red',
-                    start: '$1$'
-                },
-            ],
-            labels: scaleLabel,
+            on_load : retForFeedback(gender),
+            on_start:retForFeedback(gender),
+            blocks: function(){              
+                return [
+                    {
+                        text: '',
+                        slider: false,
+                        locked: false,
+                        duration: 1000
+                    },
+                    {
+                        text: '<div style="text-align: center; color: red;">' +
+                        '<div>' + text + '</div>' +
+                        '<div>'+ otherCalc + '</div>' +
+                      '</div>',
+                        slider: true,
+                        locked: true,
+                        key_press: 'space',
+                        text_color:'red',
+                        slider_color: 'red',
+                        start:otherCalc,
+                    },
+                ];
+            },
+            labels: redScaleLabel,
             max: 100, min: -100,
-            post_trial_gap: 1000,
-            data: function () {
-                return {
-                    Image: ExpObj.pic_num,
-                    Valence: parseFloat(ExpObj.Mean) > 0 ? 'Positive' : 'Negative'
-                };
-            }
-        }]}
-};
-
+            post_trial_gap: 1000,    
+        }
+    };
 
 var otherCond = function (ExpObj,gender) {
+    var objName = ExpObj.name;
+    var picNum = ExpObj.pic_num;
+    var otherCalc = calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"]);
+    var howOtherFeltQu =howDidTheyRespondText(ExpObj.name); 
+    var TheyRateText = howTheyRatedText(objName,gender);
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
             stimulus: function () {
                 return '<div style="margin: auto;">' +
-                    '<img src="stimuli/' + ExpObj.pic_num + '.jpg" style="width: 500px;" />' +
+                    '<img src="stimuli/' + picNum + '.jpg" style="width: 500px;" />' +
                     '</div>';
             },
             on_load: ret_fun(gender),
@@ -181,79 +251,79 @@ var otherCond = function (ExpObj,gender) {
                         duration: PRE_TRIAL_BREAK
                     },
                     {
-                        text: howDidTheyRespondText(ExpObj.name),
+                        text: howOtherFeltQu,
                         slider: true,
                         locked: false,
                         key_press: 'space',
-                        require_response: true
-                    },
-                    {
-                        text: '',
-                        slider: false,
-                        locked: false,
-                        duration: 1000
-                    },
-                    {
-                        text: howTheyRatedText(ExpObj.name,gender),
-                        slider: true,
-                        locked: true,
-                        key_press: 'space',
-                        slider_color: 'red',
-                        start: calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"])
-                    },
-                ]
+                        require_response: true,
+                        start: 0
+                    }]
             },
             labels: scaleLabel,
             max: 100, min: -100,
             post_trial_gap: 1000,
-            data: function () {
-                return {
-                    Image: ExpObj.pic_num,
-                    Valence: parseFloat(ExpObj.Mean) > 0 ? 'Positive' : 'Negative'
-                };
+            on_finish: function (data) {
+                var trialResponse = data.response[1].slider; // trial response
+                var trialResultObject = {
+                    gender : gender,
+                    stage:2,
+                    imageNum:ExpObj.pic_num,
+                    PredictionOrSelf:"Self Rating",
+                    otherCalc:otherCalc,
+                    response :trialResponse,
+                }
+                firstCondResponses.push(trialResponse);
+                experimentResult.push(trialResultObject);
+                console.log(trialResultObject);
             }
-        }]
+        },
+        otherFeedbackScreen(picNum,gender,TheyRateText,otherCalc)]
     };
 };
 
-
-var stage3ShowImage = function (ImageInd, ImageMean, ImageSD, Name, PersonCond,gender) {
+var Stage3PresentAverage = function(name,average,gender) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
-            return '<div style="margin: auto;">' +
-                '<img src="stimuli/' + ImageInd + '.jpg" style="width: 500px;" />' +
-                '</div>';
+        return '<div style="margin: auto; width: 100%; text-align: center;">' +
+            '</div>'
         },
-        on_load: ret_fun(gender),
-        blocks: [
+        on_load : retForFeedback(gender),
+        on_start:retForFeedback(gender),
+        blocks: function(){
+            return [
                 {
                     text: '',
                     slider: false,
                     locked: false,
-                    duration: PRE_TRIAL_BREAK
+                    duration: 1000
                 },
                 {
-                    text: howTheyRatedText(Name,gender),
+                    text: '<div style="text-align: center; color: red;">' +
+                    '<div>' + averageResponseWas(name) + '</div>' +
+                    '<div>'+ average + '</div>' +
+                  '</div>',
                     slider: true,
                     locked: true,
-                    start: calculateFeedback(ImageMean, ImageSD, PersonCond),
-                    slider_color: 'red',
                     key_press: 'space',
-                    require_response: false,
-                }
-            ],
-        labels: scaleLabel,
+                    text_color:'red',
+                    slider_color: 'red',
+                    start:average,
+                },
+            ];
+        },
+        labels: redScaleLabel,
         max: 100, min: -100,
-        post_trial_gap: 1000,
-        data: function () {
-            return {
-                trial_type: 'Stage 3 Show Images'
-            };
+        post_trial_gap: 1000, 
+        on_finish: function () {
+            var trialResultObject = {averagePresented:average};
+            trialResultObject.gender = gender;
+            trialResultObject.stage = 3;
+            experimentResult.push(trialResultObject);
         }
+           
     }
-};
-
+}
 
 var Stage3RateThisPerson = function (Name,gender) {
     return {
@@ -266,12 +336,6 @@ var Stage3RateThisPerson = function (Name,gender) {
         on_load: ret_fun(gender),
             blocks: [
                 {
-                    text: '',
-                    slider: false,
-                    locked: false,
-                    duration: PRE_TRIAL_BREAK
-                },
-                {
                     text: rateLikablility(Name,gender),
                     slider: true,
                     locked: false,
@@ -280,24 +344,12 @@ var Stage3RateThisPerson = function (Name,gender) {
                     require_response: false
                 },
                 {
-                    text: '',
-                    slider: false,
-                    locked: false,
-                    duration: PRE_TRIAL_BREAK
-                },
-                {
                     text: rateTrustworthiness(Name,gender),
                     slider: true,
                     locked: false,
                     start: 50,
                     key_press: 'space',
                     require_response: false
-                },
-                {
-                    text: '',
-                    slider: false,
-                    locked: false,
-                    duration: PRE_TRIAL_BREAK
                 },
                 {
                     text: rateCompenetce(Name,gender),
@@ -312,10 +364,14 @@ var Stage3RateThisPerson = function (Name,gender) {
         max: 100, min: 0,
         post_trial_gap: 1000,
         slider_dir: 'ltr',
-        data: function () {
-            return {
-                Person: Name,
-            };
+        on_finish:function(data)
+        {   var responses = data.response;
+            var lastIdx = experimentResult.length -1;
+            experimentResult[lastIdx].likable = responses[0].slider;
+            experimentResult[lastIdx].trustworthy = responses[1].slider;
+            experimentResult[lastIdx].competent = responses[2].slider;
+            // currentTrialData
+            console.log(experimentResult[lastIdx]);
         }
     }
 };
@@ -323,10 +379,8 @@ var Stage3RateThisPerson = function (Name,gender) {
 
 var stage3SinglePerson = function (Person,gender) {
     var finalArray = [fixation];
-    for (var i = 0; i < Person.images.length; i++) {
-        var cur = Person.images[i];
-        finalArray.push(stage3ShowImage(cur.pic_num, cur.Mean, cur["Std. Deviation"], Person.name, Person.cond,gender));
-    }
+    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender));
+
     finalArray.push(Stage3RateThisPerson(Person.name,gender));
     return {
         timeline: finalArray

@@ -179,7 +179,7 @@ jsPsych.plugins['html-slider-response-modified'] = (function() {
         };
         // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ //
         // html += '<div style="font-size: 20px%; height:20px; position: relative;">Selected value<br><span  id="slider-value" dir="ltr"></span></div>';
-        html += '<div style="font-size: 20px%; height:20px; position: relative;">הערך הנבחר<br><span  id="slider-value" dir="ltr"></span></div>';
+        html += '<div style="font-size: 20px%; height:20px; position: relative;"><br><span  id="slider-value" dir="ltr"></span></div>';
         
         html += '</div>';
         html += '</div>';
