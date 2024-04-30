@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <title>Task</title>
     <script src="jspsych-6.1.0/jspsych.js"></script>
-
     <script src="Image_repository.js"></script>
     <script src="Names.js"></script>
-
     <script>
       //initializing number of trials per stage. Stage 1 should be up to 10, represents the number of trials per valence.
       //stage2*2 + stage3*2 <= 50. Stage 2 represents number per valence inside self/other type, stage 3 represents num per person.
@@ -18,6 +16,7 @@
       const STAGE_1_INT = 1;
       const STAGE_2_INT = 2;
       const STAGE_3_INT = 3;
+
       //Fast mode?
       const FASTMODE = true;
 
@@ -32,46 +31,10 @@
       var firstCondDiffenece = 0;
       const positiveImageAverage = 38;
       const negativeImageAverage = -42;
+
       // initializing the result json
       var experimentResult = [];
-      // var stage3Object = [
-      //   {
-      //     cond: -1,
-      //     valence: "neg",
-      //     name: names[names.length - 4],
-      //     images: NEGATIVE_IMAGES_OBJS.slice(
-      //       STAGE_2_TRIALS_NUM * 2,
-      //       STAGE_2_TRIALS_NUM * 2 + STAGE_3_TRIALS_NUM - 1
-      //     ),
-      //   },
-      //   {
-      //     cond: 1,
-      //     valence: "neg",
-      //     name: names[names.length - 3],
-      //     images: NEGATIVE_IMAGES_OBJS.slice(
-      //       STAGE_2_TRIALS_NUM * 2 + STAGE_3_TRIALS_NUM,
-      //       STAGE_2_TRIALS_NUM * 2 + STAGE_3_TRIALS_NUM * 2 - 1
-      //     ),
-      //   },
-      //   {
-      //     cond: -1,
-      //     valence: "pos",
-      //     name: names[names.length - 2],
-      //     images: POSITIVE_IMAGES_OBJS.slice(
-      //       STAGE_2_TRIALS_NUM * 2,
-      //       STAGE_2_TRIALS_NUM * 2 + STAGE_3_TRIALS_NUM - 1
-      //     ),
-      //   },
-      //   {
-      //     cond: 1,
-      //     valence: "pos",
-      //     name: names[names.length - 1],
-      //     images: POSITIVE_IMAGES_OBJS.slice(
-      //       STAGE_2_TRIALS_NUM * 2 + STAGE_3_TRIALS_NUM,
-      //       STAGE_2_TRIALS_NUM * 2 + STAGE_3_TRIALS_NUM * 2 - 1
-      //     ),
-      //   },
-      // ];
+      
     </script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
@@ -122,8 +85,11 @@
       <label for="male">בלשון זכר</label><br>
       <input type="radio" id="female" name="gender" value="female">
       <label for="female">בלשון נקבה</label><br>
+      <input type="number" id="age" name="age">
+      <label for="age">גיל:</label><br>
       <input type="submit" value="בחר\י">
     </form>
+    
     <script>
       async function sendDataToServer(data_json) {
     try {
@@ -140,7 +106,7 @@
     }
 }
       // this funciton starts the experiment
-      function startExperiment(gender){
+      function startExperiment(gender,age){
         const names =
         gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
@@ -189,35 +155,35 @@
 
         Stage1Timeline = [];
         for (var i = 0; i < stage1Objects.length; i++) {
-          Stage1Timeline.push(firstCond(stage1Objects[i],gender,STAGE_1_INT));
+          Stage1Timeline.push(firstCond(stage1Objects[i],gender,STAGE_1_INT,age));
         }
         var Stage1Full = {timeline:Stage1Timeline} 
         Stage2Timeline = [];
       for (var i = 0; i < stage2Objects.self.length; i++) {
         Stage2Timeline.push(
-          firstCond(stage2Objects.self[i],gender,STAGE_2_INT),
-          otherCond(stage2Objects.other[i],gender)
+          firstCond(stage2Objects.self[i],gender,STAGE_2_INT,age),
+          otherCond(stage2Objects.other[i],gender,age)
         );
       }
       var Stage2Full = {timeline:Stage2Timeline} 
 
       var stage3Timeline = []; 
       for (var i = 0; i < stage3Object.length; i++) {
-        stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender));
+        stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender,age));
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
-        // let timeline = gender == "male" ?
-        //   [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+        let timeline = gender == "male" ?
+          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
         // let timeline = gender == "male" ?
         // [Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-        let timeline = gender == "male" ?
-        [Stage2Full,fifthSlideMale]
-        :[Stage2Full,fifthSlideFemale]
+        // let timeline = gender == "male" ?
+        // [Stage2Full,fifthSlideMale]
+        // :[Stage2Full,fifthSlideFemale]
 
       var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
       var IMAGES_TO_LOAD = [];
@@ -238,8 +204,10 @@
         event.preventDefault(); // Prevent default form submission behavior
         // Get user's gender selection
         var gender = document.querySelector('input[name="gender"]:checked').value;
+        var age = document.getElementById('age').value;
+
         // Start the experiment with the collected gender data
-        startExperiment(gender);
+        startExperiment(gender,age);
 
       });
     
