@@ -229,10 +229,8 @@
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
           on_finish: function() {
-          console.log(firstCondResponses);
-          console.log(firstCondDiffenece);
-          var expData = jsPsych.data.get().filter({trial_type: 'html-slider-response-modified'});
-          console.log(sendDataToServer(expData.json()));
+          console.log(experimentResult);
+          console.log(sendDataToServer(experimentResult));
           }
         });}
 
