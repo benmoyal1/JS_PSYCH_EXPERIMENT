@@ -9,9 +9,9 @@
     <script>
       //initializing number of trials per stage. Stage 1 should be up to 10, represents the number of trials per valence.
       //stage2*2 + stage3*2 <= 50. Stage 2 represents number per valence inside self/other type, stage 3 represents num per person.
-      const STAGE_1_TRIALS_NUM = 5;
-      const STAGE_2_TRIALS_NUM = 20;
-      const STAGE_3_TRIALS_NUM = 10;
+      const STAGE_1_TRIALS_NUM = 1;
+      const STAGE_2_TRIALS_NUM = 1;
+      const STAGE_3_TRIALS_NUM = 1;
 
       const STAGE_1_INT = 1;
       const STAGE_2_INT = 2;
@@ -34,8 +34,13 @@
 
       // initializing the result json
       var experimentResult = [];
-      
     </script>
+    
+    <!-- <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-html-slider-response-modified.js"></script>
+    <script src="jspsych-6.3.1/plugins/jspsych-call-function.js"></script> -->
+
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response-modified.js"></script>
@@ -101,6 +106,8 @@
             body: JSON.stringify({ data: data_json })
         });
         const result = await response.json(); // Parse response as JSON
+        console.log(result);
+        return result;
     } catch (error) {
         console.error('Error:', error);
     }
@@ -114,14 +121,14 @@
 
         //Create experiment objects
         var stage1Objects = FASTMODE
-          ? [TRAINING_NEG_IMAGES_OBJS[0], TRAINING_NEG_IMAGES_OBJS[1]]
+          ? [TRAINING_NEG_IMAGES_OBJS[0]]
           : TRAINING_POS_IMAGES_OBJS.slice(0, STAGE_1_TRIALS_NUM - 1).concat(
               TRAINING_NEG_IMAGES_OBJS.slice(0, STAGE_1_TRIALS_NUM - 1)
             );
         var stage2Objects = FASTMODE
           ? {
-              other: [NEGATIVE_IMAGES_OBJS[0], NEGATIVE_IMAGES_OBJS[1]],
-              self: [NEGATIVE_IMAGES_OBJS[2], NEGATIVE_IMAGES_OBJS[3]],
+              other: [NEGATIVE_IMAGES_OBJS[1]],
+              self: [NEGATIVE_IMAGES_OBJS[3]],
             }
           : {
               other: NEGATIVE_IMAGES_OBJS.slice(0, STAGE_2_TRIALS_NUM - 1).concat(
@@ -173,17 +180,17 @@
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
-        let timeline = gender == "male" ?
-          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+        // let timeline = gender == "male" ?
+        //   [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
         // let timeline = gender == "male" ?
         // [Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-        // let timeline = gender == "male" ?
-        // [Stage2Full,fifthSlideMale]
-        // :[Stage2Full,fifthSlideFemale]
+        let timeline = gender == "male" ?
+        [Stage3Full,calculateFirstCondDiffenece,Stage2Full]
+        :[Stage3Full,calculateFirstCondDiffenece,Stage2Full]
 
       var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
       var IMAGES_TO_LOAD = [];
@@ -195,8 +202,8 @@
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
           on_finish: function() {
-          console.log(experimentResult);
-          console.log(sendDataToServer(experimentResult));
+          var result =   sendDataToServer(experimentResult); 
+          console.log(result);
           }
         });}
 

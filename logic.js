@@ -6,8 +6,7 @@ var calculateFirstCondDiffenece = {
             sum += parseFloat(firstCondResponses[i]);
         }
         firstCondDiffenece = (sum / firstCondResponses.length) - negativeImageAverage;
-
-    }
+    },
 }
 
 var calculateFeedback = function (mean, SD, cond=0) {

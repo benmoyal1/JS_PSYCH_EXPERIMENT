@@ -55,6 +55,18 @@ function ret_fun(gender){
         
         }
         document.body.style.focus  = 'none';
+        // var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
+        // // var divs = jspsychHtmlDiv.querySelectorAll('div')[3];
+        // var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
+        // sliderValueSpan.style.display = 'none';   
+        var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
+        var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
+        sliderValueSpan.style.display = 'none'; 
+
+        var sliderInput = jspsychHtmlDiv.querySelector('input[type="range"]');
+        sliderInput.addEventListener('click', function() {
+            sliderValueSpan.style.display = 'block'; // Display the slider value span when the slider is clicked
+        });
         }
         return changeDefaultSpaceMessageHTML;
 }
@@ -175,11 +187,14 @@ var firstCond = function (ExpObj,gender,stage,age) {
                     age:age,
                     gender : gender,
                     stage:stage,
-                    imageNum:ExpObj.pic_num,
+                    imageNum:picNum,
                     PredictionOrSelf:"Self Rating",
                     response :trialResponse,
                 }
                 if(stage ==1){firstCondResponses.push(trialResponse);}
+                if(stage ==2){
+                    console.log(firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0));
+                    trialResultObject.baseline = firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0);}
                 experimentResult.push(trialResultObject);
                 console.log(trialResultObject);
             }
@@ -273,6 +288,7 @@ var otherCond = function (ExpObj,gender,age) {
                     PredictionOrSelf:"Self Rating",
                     otherCalc:otherCalc,
                     response :trialResponse,
+                    baseline : firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0),
                 }
                 firstCondResponses.push(trialResponse);
                 experimentResult.push(trialResultObject);
@@ -287,8 +303,12 @@ var Stage3PresentAverage = function(name,average,gender) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
-        return '<div style="margin: auto; width: 100%; text-align: center;">' +
-            '</div>'
+            return '<div style="margin: calc(20vh) auto 0; width: 50%; text-align: center;">' + // Adjusted margin-top using calc() function
+                '<div style="text-align: center; color: red;">' +
+                    '<div>' + averageResponseWas(name) + '</div>' +
+                    '<div>'+ average + '</div>' +
+                '</div>' +
+                '</div>';
         },
         on_load : retForFeedback(gender),
         on_start:retForFeedback(gender),
@@ -296,15 +316,16 @@ var Stage3PresentAverage = function(name,average,gender) {
             return [
                 {
                     text: '',
-                    slider: false,
-                    locked: false,
-                    duration: 1000
+                    slider: true,
+                    locked: true,
+                    key_press: null,
+                    text_color:'red',
+                    slider_color: 'red',
+                    start:average,
+                    duration: 2000,
                 },
                 {
-                    text: '<div style="text-align: center; color: red;">' +
-                    '<div>' + averageResponseWas(name) + '</div>' +
-                    '<div>'+ average + '</div>' +
-                  '</div>',
+                    text: '',
                     slider: true,
                     locked: true,
                     key_press: 'space',
@@ -331,19 +352,40 @@ var Stage3RateThisPerson = function (Name,gender,age) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
-            return '<div style="margin: auto;">' +
-                answerTheQuestions +
+            return '<div style="margin: calc(20vh) auto 0; width: 50%; text-align: center;">' + // Adjusted margin-top using calc() function
+                '<div style="text-align: center;">' +
+                    '<div>' + answerTheQuestions + '</div>' +
+                '</div>' +
                 '</div>';
         },
         on_load: ret_fun(gender),
             blocks: [
                 {
                     text: rateLikablility(Name,gender),
+                    slider_handle: false,
+                    slider:true,
+                    locked: true,
+                    start: 0,
+                    key_press: null,
+                    duration:2000,
+                    start:0
+                },
+                {
+                    text: rateLikablility(Name,gender),
                     slider: true,
                     locked: false,
                     start: 50,
                     key_press: 'space',
-                    require_response: false
+                    require_response: false,
+                    start:0
+                },
+                {
+                    text: rateTrustworthiness(Name,gender),
+                    slider: true,
+                    locked: true,
+                    start: 0,
+                    key_press: null,
+                    duration:2000
                 },
                 {
                     text: rateTrustworthiness(Name,gender),
@@ -352,6 +394,14 @@ var Stage3RateThisPerson = function (Name,gender,age) {
                     start: 50,
                     key_press: 'space',
                     require_response: false
+                },
+                {
+                    text: rateCompenetce(Name,gender),
+                    slider: true,
+                    locked: true,
+                    start: 0,
+                    key_press: null,
+                    duration:2000
                 },
                 {
                     text: rateCompenetce(Name,gender),
@@ -368,10 +418,11 @@ var Stage3RateThisPerson = function (Name,gender,age) {
         slider_dir: 'ltr',
         on_finish:function(data)
         {   var responses = data.response;
+            console.log(responses);
             var lastIdx = experimentResult.length -1;
-            experimentResult[lastIdx].likable = responses[0].slider;
-            experimentResult[lastIdx].trustworthy = responses[1].slider;
-            experimentResult[lastIdx].competent = responses[2].slider;
+            experimentResult[lastIdx].likable = responses[1].slider;
+            experimentResult[lastIdx].trustworthy = responses[3].slider;
+            experimentResult[lastIdx].competent = responses[5].slider;
             experimentResult[lastIdx].age = age;
             // currentTrialData
             console.log(experimentResult[lastIdx]);
@@ -382,9 +433,9 @@ var Stage3RateThisPerson = function (Name,gender,age) {
 
 var stage3SinglePerson = function (Person,gender,age) {
     var finalArray = [fixation];
-    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender,age));
+    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender));
 
-    finalArray.push(Stage3RateThisPerson(Person.name,gender));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age));
     return {
         timeline: finalArray
     }
