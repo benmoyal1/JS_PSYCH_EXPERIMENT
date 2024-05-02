@@ -348,7 +348,7 @@ var Stage3PresentAverage = function(name,average,gender) {
     }
 }
 
-var Stage3RateThisPerson = function (Name,gender,age) {
+var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRate) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
@@ -361,55 +361,21 @@ var Stage3RateThisPerson = function (Name,gender,age) {
         on_load: ret_fun(gender),
             blocks: [
                 {
-                    text: rateLikablility(Name,gender),
+                    text: instructionFunc(name,gender),
                     slider_handle: false,
+                    start: 50,
                     slider:true,
                     locked: true,
-                    start: 0,
                     key_press: null,
                     duration:2000,
-                    start:0
                 },
                 {
-                    text: rateLikablility(Name,gender),
+                    text: instructionFunc(name,gender),
                     slider: true,
                     locked: false,
                     start: 50,
                     key_press: 'space',
                     require_response: false,
-                    start:0
-                },
-                {
-                    text: rateTrustworthiness(Name,gender),
-                    slider: true,
-                    locked: true,
-                    start: 0,
-                    key_press: null,
-                    duration:2000
-                },
-                {
-                    text: rateTrustworthiness(Name,gender),
-                    slider: true,
-                    locked: false,
-                    start: 50,
-                    key_press: 'space',
-                    require_response: false
-                },
-                {
-                    text: rateCompenetce(Name,gender),
-                    slider: true,
-                    locked: true,
-                    start: 0,
-                    key_press: null,
-                    duration:2000
-                },
-                {
-                    text: rateCompenetce(Name,gender),
-                    slider: true,
-                    locked: false,
-                    start: 50,
-                    key_press: 'space',
-                    require_response: false
                 }
             ],
         labels: ['בכלל לא', 'מאוד'],
@@ -420,9 +386,7 @@ var Stage3RateThisPerson = function (Name,gender,age) {
         {   var responses = data.response;
             console.log(responses);
             var lastIdx = experimentResult.length -1;
-            experimentResult[lastIdx].likable = responses[1].slider;
-            experimentResult[lastIdx].trustworthy = responses[3].slider;
-            experimentResult[lastIdx].competent = responses[5].slider;
+            experimentResult[lastIdx][propertyRate] = responses[1].slider;
             experimentResult[lastIdx].age = age;
             // currentTrialData
             console.log(experimentResult[lastIdx]);
@@ -434,8 +398,9 @@ var Stage3RateThisPerson = function (Name,gender,age) {
 var stage3SinglePerson = function (Person,gender,age) {
     var finalArray = [fixation];
     finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender));
-
-    finalArray.push(Stage3RateThisPerson(Person.name,gender,age));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateLikablility,"Likable"));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateTrustworthiness,"trustworthiness"));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateCompenetce,"competence"));
     return {
         timeline: finalArray
     }
