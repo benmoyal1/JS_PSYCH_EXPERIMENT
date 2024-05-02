@@ -196,17 +196,17 @@
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
-        // let timeline = gender == "male" ?
-        //   [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+        let timeline = gender == "male" ?
+          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
         // let timeline = gender == "male" ?
         // [Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-        let timeline = gender == "male" ?
-        [Stage3Full,fifthSlideMale]
-        :[Stage3Full,fifthSlideMale]
+        // // let timeline = gender == "male" ?
+        // [Stage3Full,fifthSlideMale]
+        // :[Stage3Full,fifthSlideMale]
 
 
       var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
