@@ -98,8 +98,8 @@ var fixation = {
         '<span style="font-size: 5vw"><b>+</b></span>' + 
         '</div>',
     choices: jsPsych.NO_KEYS,
-    trial_duration: 750,
-    post_trial_gap: 500,
+    trial_duration: ITI_PRESENTATION,
+    post_trial_gap: PRE_TRIAL_BREAK,
     data: {test_part: 'fixation'}
 };
 
@@ -114,7 +114,6 @@ var feedbackScreen = function(picNum,gender,text){
                 '</div>'
             },
             on_load : retForFeedback(gender),
-            on_start:retForFeedback(gender),
             blocks: function(){              
                 var expValues = jsPsych.data.get().values()
                 var trialIndex = expValues.length;
@@ -125,7 +124,7 @@ var feedbackScreen = function(picNum,gender,text){
                         text: '',
                         slider: false,
                         locked: false,
-                        duration: 1000
+                        duration: 500
                     },
                     {
                         text: '<div style="text-align: center; color: red;">' +
@@ -134,16 +133,16 @@ var feedbackScreen = function(picNum,gender,text){
                       '</div>',
                         slider: true,
                         locked: true,
-                        key_press: 'space',
                         text_color:'red',
                         slider_color: 'red',
                         start:trialResponse,
+                        key_press: null,
+                        duration:RESPONSE_PRESENTATION
                     },
                 ];
             },
             labels: redScaleLabel,
             max: 100, min: -100,
-            post_trial_gap: 1000,    
         }
     };
 
@@ -159,15 +158,13 @@ var firstCond = function (ExpObj,gender,stage,age) {
                 '</div>';
             },
             on_load : ret_fun(gender),
-            on_start:function (){
-                document.body.tabIndex = -1; 
-            },
             blocks: [
                 {
                     text: '',
                     slider: false,
-                    locked: false,
-                    duration: PRE_TRIAL_BREAK
+                    locked: true,
+                    duration: STIMULUS_PRESENTATION,
+                    
                 },
                 {
                     text: pleaseRespondText,
@@ -180,7 +177,6 @@ var firstCond = function (ExpObj,gender,stage,age) {
             ],
             labels: scaleLabel,
             max: 100, min: -100,
-            // post_trial_gap: 1000,
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
@@ -193,7 +189,6 @@ var firstCond = function (ExpObj,gender,stage,age) {
                 }
                 if(stage ==1){firstCondResponses.push(trialResponse);}
                 if(stage ==2){
-                    console.log(firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0));
                     trialResultObject.baseline = firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0);}
                 experimentResult.push(trialResultObject);
                 console.log(trialResultObject);
@@ -214,14 +209,13 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
                 '</div>'
             },
             on_load : retForFeedback(gender),
-            on_start:retForFeedback(gender),
             blocks: function(){              
                 return [
                     {
                         text: '',
                         slider: false,
                         locked: false,
-                        duration: 1000
+                        duration: 500
                     },
                     {
                         text: '<div style="text-align: center; color: red;">' +
@@ -230,10 +224,11 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
                       '</div>',
                         slider: true,
                         locked: true,
-                        key_press: 'space',
+                        key_press: null,
                         text_color:'red',
                         slider_color: 'red',
                         start:otherCalc,
+                        duration:RESPONSE_PRESENTATION
                     },
                 ];
             },
@@ -245,8 +240,9 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
 
 var otherCond = function (ExpObj,gender,age) {
     var objName = ExpObj.name;
+    var objCond = ExpObj.cond;
     var picNum = ExpObj.pic_num;
-    var otherCalc = calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"]);
+    var otherCalc = calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"],objCond);
     var howOtherFeltQu =howDidTheyRespondText(ExpObj.name); 
     var TheyRateText = howTheyRatedText(objName,gender);
     return {
@@ -263,8 +259,8 @@ var otherCond = function (ExpObj,gender,age) {
                     {
                         text: '',
                         slider: false,
-                        locked: false,
-                        duration: PRE_TRIAL_BREAK
+                        locked: true,
+                        duration: STIMULUS_PRESENTATION
                     },
                     {
                         text: howOtherFeltQu,
@@ -277,7 +273,6 @@ var otherCond = function (ExpObj,gender,age) {
             },
             labels: scaleLabel,
             max: 100, min: -100,
-            post_trial_gap: 1000,
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
@@ -311,7 +306,6 @@ var Stage3PresentAverage = function(name,average,gender) {
                 '</div>';
         },
         on_load : retForFeedback(gender),
-        on_start:retForFeedback(gender),
         blocks: function(){
             return [
                 {
@@ -322,7 +316,7 @@ var Stage3PresentAverage = function(name,average,gender) {
                     text_color:'red',
                     slider_color: 'red',
                     start:average,
-                    duration: 2000,
+                    duration: STIMULUS_PRESENTATION,
                 },
                 {
                     text: '',
@@ -406,3 +400,49 @@ var stage3SinglePerson = function (Person,gender,age) {
     }
 };
 
+
+
+
+// var survey_questions = [
+//     {
+//       prompt: "How satisfied are you with our product?",
+//       labels: ["Not satisfied at all", "Neutral", "Very satisfied"],
+//       slider_width: 400
+//     },
+//     {
+//       prompt: "How likely are you to recommend our service to others?",
+//       labels: ["Not likely at all", "Neutral", "Very likely"],
+//       slider_width: 400
+//     },
+//     {
+//       prompt: "On a scale from 1 to 10, how easy was it to use our website?",
+//       labels: ["1 (Very difficult)", "", "10 (Very easy)"],
+//       slider_width: 400
+//     }
+//   ];
+  
+//   // Combine all questions into one stimulus
+//   var combined_stimulus = survey_questions.map(function(question) {
+//     return '<div style="margin-bottom: 20px;">' +
+//            '<p>' + question.prompt + '</p>' +
+//            '<div>' +
+//            '<input type="range" id="slider' + survey_questions.indexOf(question) + '" min="0" max="100" value="50" style="width:' + question.slider_width + 'px;">' +
+//            '</div>' +
+//            '</div>';
+//   }).join('');
+  
+//   // Define the trial
+//   var trial = {
+//     type: 'html-button-response',
+//     stimulus: combined_stimulus,
+//     choices: ['Next'], // Change to any button text you prefer
+//     button_html: '<button class="jspsych-btn">%choice%</button>',
+//     on_finish: function(data) {
+//       // Retrieve slider values and store them in the trial data
+//       survey_questions.forEach(function(question, index) {
+//         var slider_value = document.getElementById('slider' + index).value;
+//         data['slider' + index] = slider_value;
+//       });
+//     }
+//   };
+  

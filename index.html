@@ -19,31 +19,30 @@
 
       //Fast mode?
       const FASTMODE = true;
+      const FASTMODE_ = false;
 
       //Waiting durations
       const PRE_TRIAL_BREAK = FASTMODE ? 5 : 5000;
 
+      const STIMULUS_PRESENTATION = FASTMODE_? 100 : 2000;
+      const ITI_PRESENTATION =  FASTMODE_? 100 : 4000;
+      const RESPONSE_PRESENTATION =  FASTMODE_? 1000 :  4000;
       //Choosing condition randomly, -1 = extreme, 1 = moderate
       const Condition = Math.floor(Math.random() * 2) == 0 ? -1 : 1;
 
       //Initializing variables for logics.js
       var firstCondResponses = [];
       var firstCondDiffenece = 0;
-      const negativeImageAverage = -42;
+      const negativeImageAverage = -42.68;
 
       // initializing the result json
       var experimentResult = [];
     </script>
-    
-    <!-- <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
-    <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
-    <script src="jspsych-6.3.1/plugins/jspsych-html-slider-response-modified.js"></script>
-    <script src="jspsych-6.3.1/plugins/jspsych-call-function.js"></script> -->
-
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response-modified.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
     <script src="experimentLoad.js"></script>
     <script src="logic.js"></script>
     <script src="Slides.js"></script>
@@ -126,8 +125,9 @@
         console.error('Error:', error);
     }
 }
+
       // this funciton starts the experiment
-      function startExperiment(gender,age){
+      function startExperiment(gender,age,cond){
         const names =
         gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
@@ -160,6 +160,8 @@
             };
         for (var i = 0; i < stage2Objects.other.length; i++) {
           stage2Objects.other[i].name = names[i];
+          stage2Objects.other[i].cond = cond;
+          
         }
 
         var stage3Object = []
@@ -194,42 +196,46 @@
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
-        let timeline = gender == "male" ?
-          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+        // let timeline = gender == "male" ?
+        //   [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
         // let timeline = gender == "male" ?
-        // [Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        // [Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-        // let timeline = gender == "male" ?
-        // [Stage3Full,calculateFirstCondDiffenece]
-        // :[Stage3Full]
+        let timeline = gender == "male" ?
+        [Stage3Full,fifthSlideMale]
+        :[Stage3Full,fifthSlideMale]
+
 
       var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
       var IMAGES_TO_LOAD = [];
-
         for (var i = 0; i < allImages.length; i++) {
           IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
         }
+
         jsPsych.init({
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
-          on_finish: function() {
-
-          }
         });}
 
-      document.getElementById("genderForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission behavior
-      //   // Get user's gender selection
-        var gender = document.querySelector('input[name="gender"]:checked').value;
-        var age = document.getElementById('age').value;
 
-      //   // Start the experiment with the collected gender data
-        startExperiment(gender,age);
+        startExperiment("male",'23',1);
 
-      });
+
+      // document.getElementById("genderForm").addEventListener("submit", function(event) {
+      //   event.preventDefault(); // Prevent default form submission behavior
+      // //   // Get user's gender selection
+      //   var gender = document.querySelector('input[name="gender"]:checked').value;
+      //   var age = document.getElementById('age').value;
+      //   var randomValue = Math.random();
+      //   var cond = randomValue < 0.5 ? -1 : 1;
+
+      // //   // Start the experiment with the collected gender data
+      //   startExperiment(gender,age,cond);
+
+      // });
     
     </script>
   </body>
