@@ -49,38 +49,52 @@
     <script src="Slides.js"></script>
     <script src="instruction_slides.js"></script>
     <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css" />
-    <style>
-      body {
-          background-color: black;
-          color: white; 
-      }
-      #genderForm {
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-      }
+   <style>
+  body {
+    background-color: black;
+    color: white; 
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Set the height of the body to full viewport height */
+    margin: 0; /* Remove default margin */
+  }
+  
+  #genderForm {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
 
-      #genderForm label {
-        color: white;
-        margin-right: 10px;
-      }
+  #genderForm label {
+    color: white;
+    margin-right: 10px;
+    display: inline-block; /* Make labels appear on the same line */
+    vertical-align: middle; /* Align labels vertically with the radio buttons */
+  }
 
-      #genderForm input[type="radio"] {
-        margin-right: 5px;
-      }
+  #genderForm input[type="radio"] {
+    margin-right: 5px;
+    vertical-align: middle; /* Align radio buttons vertically with the labels */
+  }
 
-      #genderForm input[type="submit"] {
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-    </style>
+  #genderForm input[type="number"] {
+    margin: 10px 0; /* Add some margin between age input and the radio buttons */
+  }
+
+  #genderForm input[type="submit"] {
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+
   </head>
   <body dir="ltr">
     <form id="genderForm">

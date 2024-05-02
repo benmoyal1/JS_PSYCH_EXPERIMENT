@@ -68,6 +68,10 @@ var fifthSlideMale = {
     type: 'html-keyboard-response',
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
         '<img src="instructions_new/instructions_5_ending_male.png" style="width:100%; height: auto;"></div>',
-    choices: ['space']
+    choices: ['space'],
+    on_load:function(){
+        var result = sendDataToServer(experimentResult); 
+        console.log(result);
+    }
 };
 
