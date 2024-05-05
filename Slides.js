@@ -335,10 +335,11 @@ var Stage3PresentAverage = function(name,average,gender,participantNum) {
         max: 100, min: -100,
         post_trial_gap: 1000, 
         on_finish: function () {
-            var trialResultObject = {averagePresented:average};
+            var trialResultObject = {};
+            trialResultObject.averagePresente = average;
+            trialResultObject.participantNum = participantNum;
             trialResultObject.gender = gender;
             trialResultObject.stage = 3;
-            trialResultObject.participantNum = participantNum;
             experimentResult.push(trialResultObject);
         }
            

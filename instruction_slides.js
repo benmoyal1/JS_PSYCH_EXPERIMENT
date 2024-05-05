@@ -55,15 +55,17 @@ var fifthSlideFemale = {
     choices: ['space']
 };
 
-var fifthSlideMale = {
+var fifthSlideMale = function(gender,participantNum) {
+    return {
     type: 'html-keyboard-response',
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
         '<img src="instructions_new/instructions_5_ending_male.png" style="width:100%; height: auto;"></div>',
     choices: ['space'],
     on_load:function(){
-        var result = sendDataToServer(experimentResult); 
-        console.log(result);
+        console.log(experimentResult);
+        var result = sendDataToServer(experimentResult,gender,participantNum); 
     }
+}
     
 };
 

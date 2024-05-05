@@ -36,7 +36,7 @@
       const negativeImageAverage = -42.68;
 
       // initializing the result json
-      var experimentResult = [{"hey":"HO"}];
+      var experimentResult = [];
     </script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
@@ -56,48 +56,6 @@ body {
     display: flex; /* Use flexbox */
     overflow: hidden; /* Hide scrollbar */
 }
-/* .jspsych-content-wrapper {
-    display: flex;
-    height: 80%;
-}
-.jspsych-html-response-wrapper {
-    display: flex;
-    height: 80%;
-} */
-
-  #genderForm {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-
-  #genderForm label {
-    color: white;
-    margin-right: 10px;
-    display: inline-block; /* Make labels appear on the same line */
-    vertical-align: middle; /* Align labels vertically with the radio buttons */
-  }
-
-  #genderForm input[type="radio"] {
-    margin-right: 5px;
-    vertical-align: middle; /* Align radio buttons vertically with the labels */
-  }
-
-  #genderForm input[type="number"] {
-    margin: 10px 0; /* Add some margin between age input and the radio buttons */
-  }
-
-  #genderForm input[type="submit"] {
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
 </style>
 
   </head>
@@ -184,12 +142,12 @@ body {
 
         
       // // // fullscrenStart,fullscrenEnd
-        // let timeline = gender == "male" ?
-        //   [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+        let timeline = gender == "male" ?
+          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale(gender,participantNum)]
+        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale(gender,participantNum)]
 
         
-      let timeline =[firstSlide,secondSlideMale,fifthSlideFemale(gender,participantNum)]
+      // let timeline =[firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,Stage2Full,thirdSlideMale,Stage3Full,fifthSlideFemale(gender,participantNum)]
       // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
 
@@ -213,8 +171,8 @@ body {
         event.preventDefault(); // Prevent default form submission behavior
         // gets gender age and number of participant and caclulate cond 
         var kv = await getParticipantNum();
-        const maleCounter = kv.maleCounterKey
-        const femaleCounter = kv.femaleCounterKey
+        const maleCounter = kv.maleCounter
+        const femaleCounter = kv.femaleCounter
 
         var gender = document.querySelector('input[name="gender"]:checked').value;        
         const participantNum = gender == "male" ?maleCounter:femaleCounter;
