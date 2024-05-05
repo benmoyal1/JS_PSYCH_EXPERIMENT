@@ -117,8 +117,7 @@ body {
 
 
       // this funciton starts the experiment
-      function startExperiment(gender,age,cond){
-        getParticipantNum();
+      function startExperiment(gender,age,cond,participantNum){
         const names =
         gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
@@ -188,19 +187,19 @@ body {
       var Stage3Full = {timeline:stage3Timeline} 
 
         
-      // fullscrenStart,fullscrenEnd
-        let timeline = gender == "male" ?
-          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+      // // fullscrenStart,fullscrenEnd
+      //   let timeline = gender == "male" ?
+      //     [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+      //   :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
         // let timeline = gender == "male" ?
         // [Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
-        // let timeline = gender == "male" ?
-        // [fullscrenStart,Stage3Full,fifthSlideMale,fullscrenEnd]
-        // :[Stage3Full,fifthSlideMale]
+        let timeline = gender == "male" ?
+        [Stage3Full,fifthSlideFemale(gender,participantNum)]
+        :[Stage3Full,fifthSlideMale]
 
 
       var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
@@ -219,19 +218,23 @@ body {
         });}
 
 
-        startExperiment("male",'23',1);
+        startExperiment('male','23',1,23);
 
 
-      // document.getElementById("genderForm").addEventListener("submit", function(event) {
+      // document.getElementById("genderForm").addEventListener("submit",async function(event) {
       //   event.preventDefault(); // Prevent default form submission behavior
-      // //   // Get user's gender selection
-      //   var gender = document.querySelector('input[name="gender"]:checked').value;
+      //   // gets gender age and number of participant and caclulate cond 
+      //   var kv = await getParticipantNum();
+      //   const maleCounter = kv.maleCounterKey
+      //   const femaleCounter = kv.femaleCounterKey
+      //   const maleCond = maleCounter % 2 == 0? 1 : -1;
+      //   const femaleCond = femaleCounter % 2 == 0? 1 : -1;
+      //   var gender = document.querySelector('input[name="gender"]:checked').value;        
+      //   var cond = gender=='male' ?maleCond :femaleCond;
       //   var age = document.getElementById('age').value;
-      //   var randomValue = Math.random();
-      //   var cond = randomValue < 0.5 ? -1 : 1;
 
       // //   // Start the experiment with the collected gender data
-      //   startExperiment(gender,age,1);
+      //   startExperiment(gender,age,cond);
 
       // });
     

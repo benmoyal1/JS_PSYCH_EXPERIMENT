@@ -42,7 +42,6 @@ const redScaleLabel = scaleLabel.map(label => '<span style="color: red;">' + lab
 function ret_fun(gender){
     const changeDefaultSpaceMessageHTML = function () {
         var contentWrapper = document.querySelector('.jspsych-content-wrapper');
-        console.log(contentWrapper);
         contentWrapper.style.transform = 'scale(0.8)'; // Decrease scale (zoom out)
 
         var additionalMessages = document.getElementById('additional-messages');
@@ -194,7 +193,6 @@ var firstCond = function (ExpObj,gender,stage,age) {
                 if(stage ==2){
                     trialResultObject.baseline = firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0);}
                 experimentResult.push(trialResultObject);
-                console.log(trialResultObject);
             }
         },feedbackScreen(picNum,gender,thisIsYourResponseText(gender))]
     };
@@ -290,7 +288,6 @@ var otherCond = function (ExpObj,gender,age) {
                 }
                 firstCondResponses.push(trialResponse);
                 experimentResult.push(trialResultObject);
-                console.log(trialResultObject);
             }
         },
         otherFeedbackScreen(picNum,gender,TheyRateText,otherCalc)]
@@ -381,12 +378,10 @@ var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRat
         slider_dir: 'ltr',
         on_finish:function(data)
         {   var responses = data.response;
-            console.log(responses);
             var lastIdx = experimentResult.length -1;
             experimentResult[lastIdx][propertyRate] = responses[1].slider;
             experimentResult[lastIdx].age = age;
             // currentTrialData
-            console.log(experimentResult[lastIdx]);
         }
     }
 };
