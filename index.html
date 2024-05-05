@@ -189,7 +189,7 @@ body {
         
       // // fullscrenStart,fullscrenEnd
       //   let timeline = gender == "male" ?
-      //     [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+      //     [fullscrenStart,firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale,fullscrenEnd]
       //   :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
@@ -218,25 +218,23 @@ body {
         });}
 
 
-        startExperiment('male','23',1,23);
 
 
-      // document.getElementById("genderForm").addEventListener("submit",async function(event) {
-      //   event.preventDefault(); // Prevent default form submission behavior
-      //   // gets gender age and number of participant and caclulate cond 
-      //   var kv = await getParticipantNum();
-      //   const maleCounter = kv.maleCounterKey
-      //   const femaleCounter = kv.femaleCounterKey
-      //   const maleCond = maleCounter % 2 == 0? 1 : -1;
-      //   const femaleCond = femaleCounter % 2 == 0? 1 : -1;
-      //   var gender = document.querySelector('input[name="gender"]:checked').value;        
-      //   var cond = gender=='male' ?maleCond :femaleCond;
-      //   var age = document.getElementById('age').value;
+      document.getElementById("genderForm").addEventListener("submit",async function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        // gets gender age and number of participant and caclulate cond 
+        var kv = await getParticipantNum();
+        const maleCounter = kv.maleCounterKey
+        const femaleCounter = kv.femaleCounterKey
 
-      // //   // Start the experiment with the collected gender data
-      //   startExperiment(gender,age,cond);
+        const participantNum = gender == "male" ?maleCounter:femaleCounter;
+        var cond = participantNum % 2 == 0 ? 1 : -1;
+        var gender = document.querySelector('input[name="gender"]:checked').value;        
+        var age = document.getElementById('age').value;
+      //   // Start the experiment with the collected gender data
+        startExperiment(gender,age,cond,participantNum);
 
-      // });
+      });
     
     </script>
   </body>
