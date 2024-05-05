@@ -41,7 +41,10 @@ const redScaleLabel = scaleLabel.map(label => '<span style="color: red;">' + lab
 // and continue with space default text
 function ret_fun(gender){
     const changeDefaultSpaceMessageHTML = function () {
-        // Check if the additionalMessages element exists
+        var contentWrapper = document.querySelector('.jspsych-content-wrapper');
+        console.log(contentWrapper);
+        contentWrapper.style.transform = 'scale(0.8)'; // Decrease scale (zoom out)
+
         var additionalMessages = document.getElementById('additional-messages');
         if (additionalMessages) {
             // Select the press-space message within additionalMessages
@@ -109,8 +112,8 @@ var feedbackScreen = function(picNum,gender,text){
     return {
             type: 'html-slider-response-modified',
             stimulus: function () {
-            return '<div style="margin: auto; width: 100%; text-align: center;">' +
-                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
+            return '<div style="margin: auto; width: 90%; text-align: center;">' +
+                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 90%; max-height:90%;" />' +
                 '</div>'
             },
             on_load : retForFeedback(gender),
@@ -153,9 +156,9 @@ var firstCond = function (ExpObj,gender,stage,age) {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
             stimulus: function () {
-            return '<div style="margin: auto; width: 100%; text-align: center;">' +
-                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
-                '</div>';
+                return '<div style="margin: auto;  width: 80%; text-align: center; overflow: hidden;">' +
+                    '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 100%;" />' +
+                    '</div>';
             },
             on_load : ret_fun(gender),
             blocks: [

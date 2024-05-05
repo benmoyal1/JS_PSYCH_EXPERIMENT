@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@vercel/kv": "^1.0.1",
     "aws-sdk": "^2.1605.0",
     "dotenv": "^16.4.5",
-    "jspsych": "^7.3.4"
+    "jspsych": "^7.3.4",
+    "vercel": "^34.1.8"
   }
 }

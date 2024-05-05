@@ -26,3 +26,40 @@ var calculateFeedback = function (mean, SD, cond){
 }
 
 // if SD < sqrt(5) kick the participart 
+
+
+async function sendDataToServer(data_json) {
+    try {
+        const devUrl = 'http://localhost:3000/';
+        const serverUrl = 'https://express-backend-exp.vercel.app/';
+        const response = await fetch(devUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: data_json })
+        });
+        const result = await response.json(); // Parse response as JSON
+        return result;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function getParticipantNum() {
+    try {
+        const devUrl = 'http://localhost:3000/female';
+        const serverUrl = 'https://express-backend-exp.vercel.app/';
+        const response = await fetch(devUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json(); // Parse response as JSON
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

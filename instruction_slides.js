@@ -1,6 +1,5 @@
 // Instruction slides
 
-
 var firstSlide = {
     type: 'html-keyboard-response',
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
@@ -11,14 +10,14 @@ var firstSlide = {
 var secondSlideFemale = {
     type: 'html-keyboard-response',
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
-        '<img src="instructions_new/instructions_2_stage_1_female.png" style="width:100%; height: auto;"></div>',
+        '<img src="instructions_new/instructions_2_stage_1_female.png" style="width:80%; height:80%;"></div>',
     choices: ['space']
 };
 
 var secondSlideMale = {
     type: 'html-keyboard-response',
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
-        '<img src="instructions_new/instructions_2_stage_1_male.png" style="width:100%; height: auto;"></div>',
+        '<img src="instructions_new/instructions_2_stage_1_male.png" style="width:100%; height:80%;"></div>',
     choices: ['space']
 };
 var thirdSlideFemale = {
@@ -80,3 +79,12 @@ var fifthSlideFemale = {
     }
 };
 
+var fullscrenStart = {
+    type: 'fullscreen',
+    fullscreen_mode: true
+  };
+  // exit fullscreen mode
+  var fullscrenEnd = {
+    type: 'fullscreen',
+    fullscreen_mode: false
+  };

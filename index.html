@@ -19,7 +19,7 @@
 
       //Fast mode?
       const FASTMODE = true;
-      const FASTMODE_ = false;
+      const FASTMODE_ = true;
 
       //Waiting durations
       const PRE_TRIAL_BREAK = FASTMODE ? 5 : 5000;
@@ -43,22 +43,28 @@
     <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response-modified.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
     <script src="experimentLoad.js"></script>
     <script src="logic.js"></script>
     <script src="Slides.js"></script>
     <script src="instruction_slides.js"></script>
     <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css" />
    <style>
-  body {
+body {
     background-color: black;
     color: white; 
     display: flex; /* Use flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100vh; /* Set the height of the body to full viewport height */
-    margin: 0; /* Remove default margin */
-  }
-  
+    overflow: hidden; /* Hide scrollbar */
+}
+/* .jspsych-content-wrapper {
+    display: flex;
+    height: 80%;
+}
+.jspsych-html-response-wrapper {
+    display: flex;
+    height: 80%;
+} */
+
   #genderForm {
     padding: 20px;
     border-radius: 10px;
@@ -108,26 +114,11 @@
     </form>
     
     <script>
-      async function sendDataToServer(data_json) {
-    try {
-        const devUrl = 'http://localhost:3000/';
-        const serverUrl = 'https://express-backend-exp.vercel.app/';
-        const response = await fetch(serverUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ data: data_json })
-        });
-        const result = await response.json(); // Parse response as JSON
-        return result;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+
 
       // this funciton starts the experiment
       function startExperiment(gender,age,cond){
+        getParticipantNum();
         const names =
         gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
@@ -196,6 +187,8 @@
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
+        
+      // fullscrenStart,fullscrenEnd
         let timeline = gender == "male" ?
           [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
@@ -204,8 +197,9 @@
         // let timeline = gender == "male" ?
         // [Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
         // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-        // // let timeline = gender == "male" ?
-        // [Stage3Full,fifthSlideMale]
+
+        // let timeline = gender == "male" ?
+        // [fullscrenStart,Stage3Full,fifthSlideMale,fullscrenEnd]
         // :[Stage3Full,fifthSlideMale]
 
 
@@ -215,9 +209,13 @@
           IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
         }
 
+
+
         jsPsych.init({
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
+          fullscreen_mode: true ,
+          experiment_width: 750,
         });}
 
 
@@ -233,7 +231,7 @@
       //   var cond = randomValue < 0.5 ? -1 : 1;
 
       // //   // Start the experiment with the collected gender data
-      //   startExperiment(gender,age,cond);
+      //   startExperiment(gender,age,1);
 
       // });
     
