@@ -36,7 +36,7 @@
       const negativeImageAverage = -42.68;
 
       // initializing the result json
-      var experimentResult = [];
+      var experimentResult = [{"hey":"HO"}];
     </script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
@@ -114,8 +114,6 @@ body {
     </form>
     
     <script>
-
-
       // this funciton starts the experiment
       function startExperiment(gender,age,cond,participantNum){
         const names =
@@ -153,9 +151,7 @@ body {
           stage2Objects.other[i].cond = cond;
           
         }
-
-        var stage3Object = []
-
+      var stage3Object = []
       for (var i = 0;i < STAGE_3_TRIALS_NUM;i++){
           var stage3TrialObject = {
             name:names[names.length - i -1 ],
@@ -187,19 +183,14 @@ body {
       var Stage3Full = {timeline:stage3Timeline} 
 
         
-      // // fullscrenStart,fullscrenEnd
-      //   let timeline = gender == "male" ?
-      //     [fullscrenStart,firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale,fullscrenEnd]
-      //   :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
+      // // // fullscrenStart,fullscrenEnd
+        // let timeline = gender == "male" ?
+        //   [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
+        // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
         
-        // let timeline = gender == "male" ?
-        // [Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale]
-        // :[Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
-
-        let timeline = gender == "male" ?
-        [Stage3Full,fifthSlideFemale(gender,participantNum)]
-        :[Stage3Full,fifthSlideMale]
+      let timeline =[firstSlide,secondSlideMale,fifthSlideFemale(gender,participantNum)]
+      // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
 
       var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
@@ -209,13 +200,11 @@ body {
         }
 
 
-
         jsPsych.init({
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
-          fullscreen_mode: true ,
-          experiment_width: 750,
-        });}
+        });
+      }
 
 
 
@@ -231,9 +220,8 @@ body {
         var cond = participantNum % 2 == 0 ? 1 : -1;
         var gender = document.querySelector('input[name="gender"]:checked').value;        
         var age = document.getElementById('age').value;
-      //   // Start the experiment with the collected gender data
+    //   // Start the experiment with the collected gender data
         startExperiment(gender,age,cond,participantNum);
-
       });
     
     </script>

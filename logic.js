@@ -28,7 +28,7 @@ var calculateFeedback = function (mean, SD, cond){
 // if SD < sqrt(5) kick the participart 
 
 
-async function sendDataToServer(dataJson,gender,partifipantNum) {
+async function sendDataToServer(dataJson,gender,participantNum) {
     try {
         const devUrl = 'http://localhost:3000/';
         const serverUrl = 'https://express-backend-exp.vercel.app/';
@@ -38,9 +38,9 @@ async function sendDataToServer(dataJson,gender,partifipantNum) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ data: dataJson,
-                "partifipantNum":partifipantNum,
+                "participantNum":participantNum,
                 "gender":gender})
-        });
+        }); 
         const result = await response.json(); // Parse response as JSON
         return result;
     } catch (error) {

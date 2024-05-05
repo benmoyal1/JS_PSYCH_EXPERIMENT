@@ -75,17 +75,17 @@ var fifthSlideFemale = function(gender,participantNum) {
         '<img src="instructions_new/instructions_5_ending_male.png" style="width:100%; height: auto;"></div>',
     choices: ['space'],
     on_load:function(){
+        console.log(experimentResult);
         var result = sendDataToServer(experimentResult,gender,participantNum); 
-        console.log(result);
     }}
 };
 
-var fullscrenStart = {
-    type: 'fullscreen',
-    fullscreen_mode: true
-  };
-  // exit fullscreen mode
-  var fullscrenEnd = {
-    type: 'fullscreen',
-    fullscreen_mode: false
-  };
+// var fullscrenStart = {
+//     type: 'fullscreen',
+//     fullscreen_mode: true
+//   };
+//   // exit fullscreen mode
+//   var fullscrenEnd = {
+//     type: 'fullscreen',
+//     fullscreen_mode: false
+//   };
