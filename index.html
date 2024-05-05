@@ -164,21 +164,21 @@ body {
 
         Stage1Timeline = [];
         for (var i = 0; i < stage1Objects.length; i++) {
-          Stage1Timeline.push(firstCond(stage1Objects[i],gender,STAGE_1_INT,age));
+          Stage1Timeline.push(firstCond(stage1Objects[i],gender,STAGE_1_INT,age,participantNum));
         }
         var Stage1Full = {timeline:Stage1Timeline} 
         Stage2Timeline = [];
       for (var i = 0; i < stage2Objects.self.length; i++) {
         Stage2Timeline.push(
-          firstCond(stage2Objects.self[i],gender,STAGE_2_INT,age),
-          otherCond(stage2Objects.other[i],gender,age)
+          firstCond(stage2Objects.self[i],gender,STAGE_2_INT,age,participantNum),
+          otherCond(stage2Objects.other[i],gender,age,participantNum)
         );
       }
       var Stage2Full = {timeline:Stage2Timeline} 
 
       var stage3Timeline = []; 
       for (var i = 0; i < stage3Object.length; i++) {
-        stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender,age));
+        stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender,age,participantNum));
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
@@ -216,10 +216,13 @@ body {
         const maleCounter = kv.maleCounterKey
         const femaleCounter = kv.femaleCounterKey
 
+        var gender = document.querySelector('input[name="gender"]:checked').value;        
         const participantNum = gender == "male" ?maleCounter:femaleCounter;
         var cond = participantNum % 2 == 0 ? 1 : -1;
-        var gender = document.querySelector('input[name="gender"]:checked').value;        
         var age = document.getElementById('age').value;
+        console.log(gender);
+        console.log(participantNum);
+
     //   // Start the experiment with the collected gender data
         startExperiment(gender,age,cond,participantNum);
       });

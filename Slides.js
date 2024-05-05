@@ -149,7 +149,7 @@ var feedbackScreen = function(picNum,gender,text){
     };
 
 
-var firstCond = function (ExpObj,gender,stage,age) {
+var firstCond = function (ExpObj,gender,stage,age,participantNum) {
     var picNum = ExpObj.pic_num;
     return {
         timeline: [fixation, {
@@ -182,6 +182,7 @@ var firstCond = function (ExpObj,gender,stage,age) {
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
+                    participantNum:participantNum,
                     age:age,
                     gender : gender,
                     stage:stage,
@@ -239,7 +240,7 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
         }
     };
 
-var otherCond = function (ExpObj,gender,age) {
+var otherCond = function (ExpObj,gender,age,participantNum) {
     var objName = ExpObj.name;
     var objCond = ExpObj.cond;
     var picNum = ExpObj.pic_num;
@@ -277,6 +278,7 @@ var otherCond = function (ExpObj,gender,age) {
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
+                    participantNum:participantNum,
                     age:age,
                     gender : gender,
                     stage:2,
@@ -294,7 +296,7 @@ var otherCond = function (ExpObj,gender,age) {
     };
 };
 
-var Stage3PresentAverage = function(name,average,gender) {
+var Stage3PresentAverage = function(name,average,gender,participantNum) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
@@ -336,6 +338,7 @@ var Stage3PresentAverage = function(name,average,gender) {
             var trialResultObject = {averagePresented:average};
             trialResultObject.gender = gender;
             trialResultObject.stage = 3;
+            trialResultObject.participantNum = participantNum;
             experimentResult.push(trialResultObject);
         }
            
@@ -387,9 +390,9 @@ var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRat
 };
 
 
-var stage3SinglePerson = function (Person,gender,age) {
+var stage3SinglePerson = function (Person,gender,age,participantNum) {
     var finalArray = [fixation];
-    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender));
+    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender,participantNum));
     finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateLikablility,"Likable"));
     finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateTrustworthiness,"trustworthiness"));
     finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateCompenetce,"competence"));
