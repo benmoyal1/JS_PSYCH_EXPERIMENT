@@ -19,7 +19,7 @@
       const STAGE_3_INT = 3;
 
       //Fast mode?
-      const FASTMODE = true;
+      const FASTMODE = false;
 
       //Waiting durations
       const PRE_TRIAL_BREAK =  5 ;
@@ -142,25 +142,16 @@
           [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale(gender,participantNum)]
         :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale(gender,participantNum)]
 
-        
-
-
       var allImages = TRAINING_NEG_IMAGES_OBJS;
       var IMAGES_TO_LOAD = [];
         for (var i = 0; i < allImages.length; i++) {
           IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
         }
-        console.log(IMAGES_TO_LOAD);
-
-
         jsPsych.init({
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
         });
       }
-
-
-
 
       document.getElementById("genderForm").addEventListener("submit",async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
