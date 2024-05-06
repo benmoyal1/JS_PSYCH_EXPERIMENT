@@ -9,8 +9,9 @@
     <script>
       //initializing number of trials per stage. Stage 1 should be up to 10, represents the number of trials per valence.
       //stage2*2 + stage3*2 <= 50. Stage 2 represents number per valence inside self/other type, stage 3 represents num per person.
-      const STAGE_1_TRIALS_NUM = 1;
-      const STAGE_2_TRIALS_NUM = 1;
+      const STAGE_1_TRIALS_NUM = 10;
+      const STAGE_2A_TRIALS_NUM = 25;
+      const STAGE_2B_TRIALS_NUM = 25;
       const STAGE_3_TRIALS_NUM = 1;
 
       const STAGE_1_INT = 1;
@@ -19,14 +20,13 @@
 
       //Fast mode?
       const FASTMODE = true;
-      const FASTMODE_ = true;
 
       //Waiting durations
-      const PRE_TRIAL_BREAK = FASTMODE ? 5 : 5000;
+      const PRE_TRIAL_BREAK =  5 ;
 
-      const STIMULUS_PRESENTATION = FASTMODE_? 100 : 2000;
-      const ITI_PRESENTATION =  FASTMODE_? 100 : 4000;
-      const RESPONSE_PRESENTATION =  FASTMODE_? 1000 :  4000;
+      const STIMULUS_PRESENTATION = FASTMODE? 100 : 2000;
+      const ITI_PRESENTATION =  FASTMODE? 100 : 4000;
+      const RESPONSE_PRESENTATION =  FASTMODE? 1000 :  4000;
       //Choosing condition randomly, -1 = extreme, 1 = moderate
       const Condition = Math.floor(Math.random() * 2) == 0 ? -1 : 1;
 
@@ -44,32 +44,36 @@
     <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
-    <script src="experimentLoad.js"></script>
     <script src="logic.js"></script>
     <script src="Slides.js"></script>
     <script src="instruction_slides.js"></script>
     <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css" />
+    <link rel="stylesheet" href="./questioneir.css" />
    <style>
-body {
-    background-color: black;
-    color: white; 
-    display: flex; /* Use flexbox */
-    overflow: hidden; /* Hide scrollbar */
-}
+
 </style>
 
   </head>
   <body dir="ltr">
-    <form id="genderForm">
-      <label for="gender">?איך היית רוצה שיתייחסו אליך בניסוי</label><br>
-      <input type="radio" id="male" name="gender" value="male">
-      <label for="male">בלשון זכר</label><br>
-      <input type="radio" id="female" name="gender" value="female">
-      <label for="female">בלשון נקבה</label><br>
-      <input type="number" id="age" name="age">
-      <label for="age">גיל:</label><br>
-      <input type="submit" value="בחר\י">
-    </form>
+    <form id="genderForm" class="questionnaire-form">
+      <div class="question">
+          <label for="gender">?איך היית רוצה שיתייחסו אליך בניסוי</label>
+      </div>
+      <div class="options">
+          <input type="radio" id="male" name="gender" value="male">
+          <label for="male">בלשון זכר</label>
+          <input type="radio" id="female" name="gender" value="female">
+          <label for="female">בלשון נקבה</label>
+      </div>
+      <div class="ageQuestion">
+        <input type="number" id="age" name="age">
+        <label for="age">:גיל</label>
+      </div>
+      <input type="submit" value="בחר\י" class="submit-button">
+  </form>
+  
+  
+  
     
     <script>
       // this funciton starts the experiment
@@ -82,38 +86,30 @@ body {
         //Create experiment objects
         var stage1Objects = FASTMODE
           ? [TRAINING_NEG_IMAGES_OBJS[0]]
-          : TRAINING_POS_IMAGES_OBJS.slice(0, STAGE_1_TRIALS_NUM - 1).concat(
-              TRAINING_NEG_IMAGES_OBJS.slice(0, STAGE_1_TRIALS_NUM - 1)
-            );
+          : TRAINING_NEG_IMAGES_OBJS.slice(0, STAGE_1_TRIALS_NUM - 1);
         var stage2Objects = FASTMODE
           ? {
-              other: [NEGATIVE_IMAGES_OBJS[1]],
-              self: [NEGATIVE_IMAGES_OBJS[3]],
+              other: [TRAINING_NEG_IMAGES_OBJS[1]],
+              self: [TRAINING_NEG_IMAGES_OBJS[3]],
             }
           : {
-              other: NEGATIVE_IMAGES_OBJS.slice(0, STAGE_2_TRIALS_NUM - 1).concat(
-                NEGATIVE_IMAGES_OBJS.slice(0, STAGE_2_TRIALS_NUM - 1)
-              ),
-              self: NEGATIVE_IMAGES_OBJS.slice(
-                STAGE_2_TRIALS_NUM,
-                STAGE_2_TRIALS_NUM * 2 - 1
-              ).concat(
-                NEGATIVE_IMAGES_OBJS.slice(
-                  STAGE_2_TRIALS_NUM,
-                  STAGE_2_TRIALS_NUM * 2 - 1
-                )
-              ),
+              other: TRAINING_NEG_IMAGES_OBJS.slice(
+                STAGE_1_TRIALS_NUM,
+                STAGE_1_TRIALS_NUM +  STAGE_2A_TRIALS_NUM - 1),
+              self: TRAINING_NEG_IMAGES_OBJS.slice(
+                STAGE_1_TRIALS_NUM +  STAGE_2A_TRIALS_NUM,
+                STAGE_1_TRIALS_NUM +  STAGE_2A_TRIALS_NUM + STAGE_2B_TRIALS_NUM - 1
+              )
             };
         for (var i = 0; i < stage2Objects.other.length; i++) {
           stage2Objects.other[i].name = names[i];
           stage2Objects.other[i].cond = cond;
-          
         }
       var stage3Object = []
       for (var i = 0;i < STAGE_3_TRIALS_NUM;i++){
           var stage3TrialObject = {
             name:names[names.length - i -1 ],
-            cond : i % 2 == 0 ? 1 : -1,
+            cond : cond,
             average:averageResponses[averageResponses.length -i -1 ]
 
           }
@@ -147,15 +143,14 @@ body {
         :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale(gender,participantNum)]
 
         
-      // let timeline =[firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,Stage2Full,thirdSlideMale,Stage3Full,fifthSlideFemale(gender,participantNum)]
-      // :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale]
 
 
-      var allImages = NEGATIVE_IMAGES_OBJS.concat(TRAINING_NEG_IMAGES_OBJS);
+      var allImages = TRAINING_NEG_IMAGES_OBJS;
       var IMAGES_TO_LOAD = [];
         for (var i = 0; i < allImages.length; i++) {
           IMAGES_TO_LOAD.push("stimuli/" + allImages[i].pic_num + ".jpg");
         }
+        console.log(IMAGES_TO_LOAD);
 
 
         jsPsych.init({

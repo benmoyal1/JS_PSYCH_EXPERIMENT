@@ -1,0 +1,58 @@
+
+
+body {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Ensure full viewport height */
+    margin: 0; /* Remove default margin */
+    overflow: hidden; /* Hide scrollbar */
+  }
+  
+   .questionnaire-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    text-align: right; /* Right-align text */
+    padding: 20px; /* Add padding for spacing */
+  } 
+  
+
+  .question {
+    width: 100%; /* Ensure questions take full width */
+    display: flex;
+    justify-content: space-between; /* Space between label and input */
+    align-items: center; /* Center vertically */
+  }
+  
+  .options {
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: flex-end; /* Align options to the right */
+  }
+  
+  .options label {
+    margin-right: 10px; /* Add space between radio buttons and labels */
+  }
+  
+  .ageQuestion {
+    width: 100%; /* Ensure age question takes full width */
+    display: flex;
+    justify-content: flex-end; /* Align text to the right */
+  }
+  
+  .ageQuestion label {
+    margin-left: 10px; /* Add margin to the left of the label */
+  }
+  
+  .ageInput {
+    width: 100%; /* Ensure age input takes full width */
+  }
+  
+  .submit-button {
+    margin-top: 10px; /* Add margin between the last question and the submit button */
+  }
+  
