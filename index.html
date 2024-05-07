@@ -93,10 +93,10 @@
             }
           : {
               other: TRAINING_NEG_IMAGES_OBJS.slice(
-                0,2),
+                0,STAGE_2A_TRIALS_NUM),
               self: TRAINING_NEG_IMAGES_OBJS.slice(
                  STAGE_2A_TRIALS_NUM,
-                 STAGE_2A_TRIALS_NUM + 2)
+                 STAGE_2A_TRIALS_NUM + STAGE_2B_TRIALS_NUM)
             };
 
         for (var i = 0; i < stage2Objects.other.length; i++) {
@@ -105,7 +105,7 @@
         }
 
       var stage3Object = []
-      for (var i = 0;i < STAGE_3_TRIALS_NUM;i++){
+      for (var i = 0;i < 1;i++){
           var stage3TrialObject = {
             name:names[names.length - i -1 ],
             cond : cond,
