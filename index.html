@@ -93,10 +93,10 @@
             }
           : {
               other: TRAINING_NEG_IMAGES_OBJS.slice(
-                0,STAGE_2A_TRIALS_NUM),
+                0,2),
               self: TRAINING_NEG_IMAGES_OBJS.slice(
                  STAGE_2A_TRIALS_NUM,
-                 STAGE_2A_TRIALS_NUM + STAGE_2B_TRIALS_NUM)
+                 STAGE_2A_TRIALS_NUM + 2)
             };
 
         for (var i = 0; i < stage2Objects.other.length; i++) {
