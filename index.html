@@ -164,7 +164,7 @@
         var age = document.getElementById('age').value;
         console.log(gender);
         console.log(participantNum);
-
+        if(0> age || age > 85){return;}
     //   // Start the experiment with the collected gender data
         startExperiment(gender,age,cond,participantNum);
       });

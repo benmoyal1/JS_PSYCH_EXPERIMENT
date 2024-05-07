@@ -1,14 +1,24 @@
 ﻿//The texts to be presented
 const pleaseRespondText = '?איך התמונה גורמת לך להרגיש';
 
-const howDidTheyRespondText = function (name) {
 
-    return  `?איך התמונה גרמה ל${name} להרגיש`;
+const howDidTheyRespondHTML = function (name) {
+    return `
+        <div style="text-align: center; color: white;">
+            ?איך התמונה גרמה ל<span style="font-weight: bold; text-decoration: underline;">${name}</span> להרגיש
+        </div>
+    `;
 };
-const howTheyRatedText = function (name,gender) {
-    var felt = gender == "male"? "הרגיש" :"הרגישה"
-    return `:${name} ${felt}`;
+
+const howTheyRatedHTML = function (name, gender) {
+    var felt = gender == "male" ? "הרגיש" : "הרגישה";
+    return `
+        <div style="color: red;">
+            <span style="font-weight: bold; text-decoration: underline;">${name}</span> ${felt}
+        </div>
+    `;
 };
+
 
 const averageResponseWas = function (name) {
     return `:התגובה הממוצעת של ${name} הייתה`
@@ -137,6 +147,18 @@ var feedbackScreen = function(picNum,gender,text){
                         key_press: null,
                         duration:RESPONSE_PRESENTATION
                     },
+                    {
+                        text: '<div style="text-align: center; color: red;">' +
+                        '<div>' + text + '</div>' +
+                        '<div>'+ trialResponse + '</div>' +
+                      '</div>',
+                        slider: true,
+                        locked: true,
+                        text_color:'red',
+                        slider_color: 'red',
+                        start:trialResponse,
+                        key_press: 'space',
+                    },
                 ];
             },
             labels: redScaleLabel,
@@ -198,7 +220,7 @@ var firstCond = function (ExpObj,gender,stage,age,participantNum) {
 
 
 
-var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
+var otherFeedbackScreen = function(picNum,gender,theyRateText,otherCalc){
     return {
             type: 'html-slider-response-modified',
             stimulus: function () {
@@ -217,7 +239,7 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
                     },
                     {
                         text: '<div style="text-align: center; color: red;">' +
-                        '<div>' + text + '</div>' +
+                        '<div>' + theyRateText + '</div>' +
                         '<div>'+ otherCalc + '</div>' +
                       '</div>',
                         slider: true,
@@ -227,6 +249,18 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
                         slider_color: 'red',
                         start:otherCalc,
                         duration:RESPONSE_PRESENTATION
+                    },
+                    {
+                        text: '<div style="text-align: center; color: red;">' +
+                        '<div>' + theyRateText + '</div>' +
+                        '<div>'+ otherCalc + '</div>' +
+                      '</div>',
+                        slider: true,
+                        locked: true,
+                        key_press: 'space',
+                        text_color:'red',
+                        slider_color: 'red',
+                        start:otherCalc,
                     },
                 ];
             },
@@ -241,8 +275,8 @@ var otherCond = function (ExpObj,gender,age,participantNum) {
     var objCond = ExpObj.cond;
     var picNum = ExpObj.pic_num;
     var otherCalc = calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"],objCond);
-    var howOtherFeltQu =howDidTheyRespondText(ExpObj.name); 
-    var TheyRateText = howTheyRatedText(objName,gender);
+    var howOtherFeltQu =howDidTheyRespondHTML(ExpObj.name); 
+    var TheyRateText = howTheyRatedHTML(objName,gender);
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
