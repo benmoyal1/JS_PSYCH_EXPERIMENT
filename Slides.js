@@ -57,10 +57,6 @@ function ret_fun(gender){
         
         }
         document.body.style.focus  = 'none';
-        // var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
-        // // var divs = jspsychHtmlDiv.querySelectorAll('div')[3];
-        // var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
-        // sliderValueSpan.style.display = 'none';   
         var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
         var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
         sliderValueSpan.style.display = 'none'; 
@@ -206,10 +202,10 @@ var otherFeedbackScreen = function(picNum,gender,text,otherCalc){
     return {
             type: 'html-slider-response-modified',
             stimulus: function () {
-            return '<div style="margin: auto; width: 100%; text-align: center;">' +
-                '<img src="stimuli/' + picNum + '.jpg" style="max-width: 100%; max-height: 90vh;" />' +
-                '</div>'
-            },
+                return '<div style="margin: auto; width: 90%; text-align: center;">' +
+                    '<img src="stimuli/' + picNum + '.jpg" style="max-width: 90%; max-height:90%;" />' +
+                    '</div>'
+                },
             on_load : retForFeedback(gender),
             blocks: function(){              
                 return [

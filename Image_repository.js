@@ -1,128 +1,121 @@
 // average reactions for stage3
 const averageResponses = jsPsych.randomization.repeat([-65,-75,-70, -72,-68,-20,-17,-15,-22,-21],1)
+
+const BASELINE_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
+  [
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 0,
+      "Mean": -67.8070175438597,
+      "Std. Deviation": 30.0822910628325,
+      "less extreme": -45.2452992467353,
+      "more extreme": -90.3687358409841,
+      "pic_num": 0,
+      "index": "9940"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 14,
+      "Mean": -34.6140350877193,
+      "Std. Deviation": 32.1285111399544,
+      "less extreme": -10.5176517327535,
+      "more extreme": -58.7104184426851,
+      "pic_num": 1,
+      "index": "1019"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 55,
+      "Mean": -33.3508771929824,
+      "Std. Deviation": 36.4674469454168,
+      "less extreme": -6.00029198391982,
+      "more extreme": -60.7014624020451,
+      "pic_num": 2,
+      "index": "1050"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 31,
+      "Mean": -48.5087719298246,
+      "Std. Deviation": 33.1889196263589,
+      "less extreme": -23.6170822100554,
+      "more extreme": -73.4004616495938,
+      "pic_num": 3,
+      "index": "1111"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 43,
+      "Mean": -41.3508771929825,
+      "Std. Deviation": 33.6178583643055,
+      "less extreme": -16.1374834197533,
+      "more extreme": -66.5642709662116,
+      "pic_num": 4,
+      "index": "1201"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 52,
+      "Mean": -40.9824561403509,
+      "Std. Deviation": 39.6878405398529,
+      "less extreme": -11.2165757354612,
+      "more extreme": -70.7483365452406,
+      "pic_num": 5,
+      "index": "1205"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 21,
+      "Mean": -36.5438596491228,
+      "Std. Deviation": 32.2147205567793,
+      "less extreme": -12.3828192315384,
+      "more extreme": -60.7049000667073,
+      "pic_num": 6,
+      "index": "1271"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 23,
+      "Mean": -39.0701754385965,
+      "Std. Deviation": 31.4085177534482,
+      "less extreme": -15.5137871235103,
+      "more extreme": -62.6265637536826,
+      "pic_num": 7,
+      "index": "1275"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 12,
+      "Mean": -35.0877192982456,
+      "Std. Deviation": 32.0486687386512,
+      "less extreme": -11.0512177442572,
+      "more extreme": -59.124220852234,
+      "pic_num": 8,
+      "index": "1300"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 59,
+      "Mean": -19.719298245614,
+      "Std. Deviation": 29.7181728829137,
+      "less extreme": 2.56933141657123,
+      "more extreme": -42.0079279077993,
+      "pic_num": 9,
+      "index": "1301"
+    }],1)
+
 const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
 [
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 0,
-    "Mean": -67.8070175438597,
-    "Std. Deviation": 30.0822910628325,
-    "less extreme": -45.2452992467353,
-    "more extreme": -90.3687358409841,
-    "pic_num": 0,
-    "index": "9940"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 14,
-    "Mean": -34.6140350877193,
-    "Std. Deviation": 32.1285111399544,
-    "less extreme": -10.5176517327535,
-    "more extreme": -58.7104184426851,
-    "pic_num": 1,
-    "index": "1019"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 55,
-    "Mean": -33.3508771929824,
-    "Std. Deviation": 36.4674469454168,
-    "less extreme": -6.00029198391982,
-    "more extreme": -60.7014624020451,
-    "pic_num": 2,
-    "index": "1050"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 31,
-    "Mean": -48.5087719298246,
-    "Std. Deviation": 33.1889196263589,
-    "less extreme": -23.6170822100554,
-    "more extreme": -73.4004616495938,
-    "pic_num": 3,
-    "index": "1111"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 43,
-    "Mean": -41.3508771929825,
-    "Std. Deviation": 33.6178583643055,
-    "less extreme": -16.1374834197533,
-    "more extreme": -66.5642709662116,
-    "pic_num": 4,
-    "index": "1201"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 52,
-    "Mean": -40.9824561403509,
-    "Std. Deviation": 39.6878405398529,
-    "less extreme": -11.2165757354612,
-    "more extreme": -70.7483365452406,
-    "pic_num": 5,
-    "index": "1205"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 21,
-    "Mean": -36.5438596491228,
-    "Std. Deviation": 32.2147205567793,
-    "less extreme": -12.3828192315384,
-    "more extreme": -60.7049000667073,
-    "pic_num": 6,
-    "index": "1271"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 23,
-    "Mean": -39.0701754385965,
-    "Std. Deviation": 31.4085177534482,
-    "less extreme": -15.5137871235103,
-    "more extreme": -62.6265637536826,
-    "pic_num": 7,
-    "index": "1275"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 12,
-    "Mean": -35.0877192982456,
-    "Std. Deviation": 32.0486687386512,
-    "less extreme": -11.0512177442572,
-    "more extreme": -59.124220852234,
-    "pic_num": 8,
-    "index": "1300"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 59,
-    "Mean": -19.719298245614,
-    "Std. Deviation": 29.7181728829137,
-    "less extreme": 2.56933141657123,
-    "more extreme": -42.0079279077993,
-    "pic_num": 9,
-    "index": "1301"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 25,
-    "Mean": -36.1228070175439,
-    "Std. Deviation": 31.8175996756953,
-    "less extreme": -12.2596072607724,
-    "more extreme": -59.9860067743153,
-    "pic_num": 10,
-    "index": "1930"
-  },
   {
     "N": 57,
     "Minimum": -100,
@@ -134,6 +127,17 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "pic_num": 11,
     "index": "1932"
   },
+    {
+      "N": 57,
+      "Minimum": -100,
+      "Maximum": 25,
+      "Mean": -36.1228070175439,
+      "Std. Deviation": 31.8175996756953,
+      "less extreme": -12.2596072607724,
+      "more extreme": -59.9860067743153,
+      "pic_num": 10,
+      "index": "1930"
+    },
   {
     "N": 57,
     "Minimum": -100,
