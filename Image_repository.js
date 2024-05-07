@@ -17,28 +17,6 @@ const BASELINE_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     {
       "N": 57,
       "Minimum": -100,
-      "Maximum": 14,
-      "Mean": -34.6140350877193,
-      "Std. Deviation": 32.1285111399544,
-      "less extreme": -10.5176517327535,
-      "more extreme": -58.7104184426851,
-      "pic_num": 1,
-      "index": "1019"
-    },
-    {
-      "N": 57,
-      "Minimum": -100,
-      "Maximum": 55,
-      "Mean": -33.3508771929824,
-      "Std. Deviation": 36.4674469454168,
-      "less extreme": -6.00029198391982,
-      "more extreme": -60.7014624020451,
-      "pic_num": 2,
-      "index": "1050"
-    },
-    {
-      "N": 57,
-      "Minimum": -100,
       "Maximum": 31,
       "Mean": -48.5087719298246,
       "Std. Deviation": 33.1889196263589,
@@ -50,69 +28,92 @@ const BASELINE_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     {
       "N": 57,
       "Minimum": -100,
+      "Maximum": -1,
+      "Mean": -69.7017543859649,
+      "Std. Deviation": 28.2823549940599,
+      "less extreme": -48.48998814042,
+      "more extreme": -90.9135206315098,
+      "pic_num": 77,
+      "index": "9042"
+    },
+    {
+      "N": 57,
+      "Minimum": -100,
       "Maximum": 43,
-      "Mean": -41.3508771929825,
-      "Std. Deviation": 33.6178583643055,
-      "less extreme": -16.1374834197533,
-      "more extreme": -66.5642709662116,
-      "pic_num": 4,
-      "index": "1201"
+      "Mean": -38.4035087719298,
+      "Std. Deviation": 34.1226043895511,
+      "less extreme": -12.8115554797665,
+      "more extreme": -63.9954620640932,
+      "pic_num": 91,
+      "index": "9440"
     },
     {
       "N": 57,
       "Minimum": -100,
-      "Maximum": 52,
-      "Mean": -40.9824561403509,
-      "Std. Deviation": 39.6878405398529,
-      "less extreme": -11.2165757354612,
-      "more extreme": -70.7483365452406,
-      "pic_num": 5,
-      "index": "1205"
+      "Maximum": 25,
+      "Mean": -36.1228070175439,
+      "Std. Deviation": 31.8175996756953,
+      "less extreme": -12.2596072607724,
+      "more extreme": -59.9860067743153,
+      "pic_num": 10,
+      "index": "1930"
     },
     {
       "N": 57,
       "Minimum": -100,
-      "Maximum": 21,
-      "Mean": -36.5438596491228,
-      "Std. Deviation": 32.2147205567793,
-      "less extreme": -12.3828192315384,
-      "more extreme": -60.7049000667073,
-      "pic_num": 6,
-      "index": "1271"
+      "Maximum": 43,
+      "Mean": -32.7719298245614,
+      "Std. Deviation": 26.6411453688916,
+      "less extreme": -12.7910707978927,
+      "more extreme": -52.7527888512301,
+      "pic_num": 14,
+      "index": "2120"
     },
     {
       "N": 57,
       "Minimum": -100,
-      "Maximum": 23,
-      "Mean": -39.0701754385965,
-      "Std. Deviation": 31.4085177534482,
-      "less extreme": -15.5137871235103,
-      "more extreme": -62.6265637536826,
-      "pic_num": 7,
-      "index": "1275"
+      "Maximum": 70,
+      "Mean": -41.0877192982456,
+      "Std. Deviation": 32.6935340383966,
+      "less extreme": -16.5675687694481,
+      "more extreme": -65.6078698270431,
+      "pic_num": 23,
+      "index": "2490"
     },
     {
       "N": 57,
       "Minimum": -100,
-      "Maximum": 12,
-      "Mean": -35.0877192982456,
-      "Std. Deviation": 32.0486687386512,
-      "less extreme": -11.0512177442572,
-      "more extreme": -59.124220852234,
-      "pic_num": 8,
-      "index": "1300"
+      "Maximum": 2,
+      "Mean": -54,
+      "Std. Deviation": 28.0076520156291,
+      "less extreme": -32.9942609882782,
+      "more extreme": -75.0057390117218,
+      "pic_num": 42,
+      "index": "3180"
     },
     {
       "N": 57,
-      "Minimum": -100,
-      "Maximum": 59,
-      "Mean": -19.719298245614,
-      "Std. Deviation": 29.7181728829137,
-      "less extreme": 2.56933141657123,
-      "more extreme": -42.0079279077993,
-      "pic_num": 9,
-      "index": "1301"
-    }],1)
+      "Minimum": -80,
+      "Maximum": 2,
+      "Mean": -21.859649122807,
+      "Std. Deviation": 24.3504463119051,
+      "less extreme": -3.5968143888782,
+      "more extreme": -40.1224838567358,
+      "pic_num": 70,
+      "index": "7079"
+    },
+    {
+      "N": 57,
+      "Minimum": -85,
+      "Maximum": 100,
+      "Mean": -8.7719298245614,
+      "Std. Deviation": 43.7701045822128,
+      "less extreme": 24.0556486120982,
+      "more extreme": -41.599508261221,
+      "pic_num": 71,
+      "index": "7360"
+    }
+  ],1)
 
 const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
 [
@@ -126,18 +127,95 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "more extreme": -60.4087486554811,
     "pic_num": 11,
     "index": "1932"
+  },   {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 14,
+    "Mean": -34.6140350877193,
+    "Std. Deviation": 32.1285111399544,
+    "less extreme": -10.5176517327535,
+    "more extreme": -58.7104184426851,
+    "pic_num": 1,
+    "index": "1019"
   },
-    {
-      "N": 57,
-      "Minimum": -100,
-      "Maximum": 25,
-      "Mean": -36.1228070175439,
-      "Std. Deviation": 31.8175996756953,
-      "less extreme": -12.2596072607724,
-      "more extreme": -59.9860067743153,
-      "pic_num": 10,
-      "index": "1930"
-    },
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 55,
+    "Mean": -33.3508771929824,
+    "Std. Deviation": 36.4674469454168,
+    "less extreme": -6.00029198391982,
+    "more extreme": -60.7014624020451,
+    "pic_num": 2,
+    "index": "1050"
+  },
+
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 43,
+    "Mean": -41.3508771929825,
+    "Std. Deviation": 33.6178583643055,
+    "less extreme": -16.1374834197533,
+    "more extreme": -66.5642709662116,
+    "pic_num": 4,
+    "index": "1201"
+  },
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 52,
+    "Mean": -40.9824561403509,
+    "Std. Deviation": 39.6878405398529,
+    "less extreme": -11.2165757354612,
+    "more extreme": -70.7483365452406,
+    "pic_num": 5,
+    "index": "1205"
+  },
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 21,
+    "Mean": -36.5438596491228,
+    "Std. Deviation": 32.2147205567793,
+    "less extreme": -12.3828192315384,
+    "more extreme": -60.7049000667073,
+    "pic_num": 6,
+    "index": "1271"
+  },
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 23,
+    "Mean": -39.0701754385965,
+    "Std. Deviation": 31.4085177534482,
+    "less extreme": -15.5137871235103,
+    "more extreme": -62.6265637536826,
+    "pic_num": 7,
+    "index": "1275"
+  },
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 12,
+    "Mean": -35.0877192982456,
+    "Std. Deviation": 32.0486687386512,
+    "less extreme": -11.0512177442572,
+    "more extreme": -59.124220852234,
+    "pic_num": 8,
+    "index": "1300"
+  },
+  {
+    "N": 57,
+    "Minimum": -100,
+    "Maximum": 59,
+    "Mean": -19.719298245614,
+    "Std. Deviation": 29.7181728829137,
+    "less extreme": 2.56933141657123,
+    "more extreme": -42.0079279077993,
+    "pic_num": 9,
+    "index": "1301"
+  },
   {
     "N": 57,
     "Minimum": -100,
@@ -160,17 +238,7 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "pic_num": 13,
     "index": "2115"
   },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 43,
-    "Mean": -32.7719298245614,
-    "Std. Deviation": 26.6411453688916,
-    "less extreme": -12.7910707978927,
-    "more extreme": -52.7527888512301,
-    "pic_num": 14,
-    "index": "2120"
-  },
+
   {
     "N": 57,
     "Minimum": -100,
@@ -259,17 +327,7 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "pic_num": 22,
     "index": "2457"
   },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 70,
-    "Mean": -41.0877192982456,
-    "Std. Deviation": 32.6935340383966,
-    "less extreme": -16.5675687694481,
-    "more extreme": -65.6078698270431,
-    "pic_num": 23,
-    "index": "2490"
-  },
+
   {
     "N": 57,
     "Minimum": -100,
@@ -447,17 +505,6 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "more extreme": -63.4217196018914,
     "pic_num": 41,
     "index": "2900"
-  },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 2,
-    "Mean": -54,
-    "Std. Deviation": 28.0076520156291,
-    "less extreme": -32.9942609882782,
-    "more extreme": -75.0057390117218,
-    "pic_num": 42,
-    "index": "3180"
   },
   {
     "N": 57,
@@ -679,28 +726,8 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "pic_num": 69,
     "index": "7023"
   },
-  {
-    "N": 57,
-    "Minimum": -80,
-    "Maximum": 2,
-    "Mean": -21.859649122807,
-    "Std. Deviation": 24.3504463119051,
-    "less extreme": -3.5968143888782,
-    "more extreme": -40.1224838567358,
-    "pic_num": 70,
-    "index": "7079"
-  },
-  {
-    "N": 57,
-    "Minimum": -85,
-    "Maximum": 100,
-    "Mean": -8.7719298245614,
-    "Std. Deviation": 43.7701045822128,
-    "less extreme": 24.0556486120982,
-    "more extreme": -41.599508261221,
-    "pic_num": 71,
-    "index": "7360"
-  },
+
+
   {
     "N": 57,
     "Minimum": -100,
@@ -746,17 +773,7 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "index": "9031"
   },
 
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": -1,
-    "Mean": -69.7017543859649,
-    "Std. Deviation": 28.2823549940599,
-    "less extreme": -48.48998814042,
-    "more extreme": -90.9135206315098,
-    "pic_num": 77,
-    "index": "9042"
-  },
+
   {
     "N": 57,
     "Minimum": -100,
@@ -879,17 +896,7 @@ const TRAINING_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
     "pic_num": 90,
     "index": "9429"
   },
-  {
-    "N": 57,
-    "Minimum": -100,
-    "Maximum": 43,
-    "Mean": -38.4035087719298,
-    "Std. Deviation": 34.1226043895511,
-    "less extreme": -12.8115554797665,
-    "more extreme": -63.9954620640932,
-    "pic_num": 91,
-    "index": "9440"
-  },
+
   {
     "N": 57,
     "Minimum": -100,
