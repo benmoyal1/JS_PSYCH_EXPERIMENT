@@ -19,7 +19,7 @@
       const STAGE_3_INT = 3;
 
       //Fast mode?
-      const FASTMODE = true;
+      const FASTMODE = false;
 
       //Waiting durations
       const PRE_TRIAL_BREAK =  5 ;
@@ -82,11 +82,11 @@
           : jsPsych.randomization.repeat(F_names, 1);
 
         //Create experiment objects
-        var stage1Objects = !FASTMODE
+        var stage1Objects = FASTMODE
           ? [TRAINING_NEG_IMAGES_OBJS[0]]
           : BASELINE_NEG_IMAGES_OBJS;
 
-        var stage2Objects = !FASTMODE
+        var stage2Objects = FASTMODE
           ? {
               other: [TRAINING_NEG_IMAGES_OBJS[0]],
               self: [TRAINING_NEG_IMAGES_OBJS[1]],
