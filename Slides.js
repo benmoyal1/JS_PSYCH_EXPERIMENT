@@ -107,7 +107,7 @@ var fixation = {
         '</div>',
     choices: jsPsych.NO_KEYS,
     trial_duration: ITI_PRESENTATION,
-    post_trial_gap: PRE_TRIAL_BREAK,
+    // post_trial_gap: PRE_TRIAL_BREAK,
     data: {test_part: 'fixation'}
 };
 
@@ -266,7 +266,7 @@ var otherFeedbackScreen = function(picNum,gender,theyRateText,otherCalc){
             },
             labels: redScaleLabel,
             max: 100, min: -100,
-            post_trial_gap: 1000,    
+            // post_trial_gap: 1000,    
         }
     };
 
@@ -348,7 +348,7 @@ var Stage3PresentAverage = function(name,average,gender,participantNum) {
                     text_color:'red',
                     slider_color: 'red',
                     start:average,
-                    duration: STIMULUS_PRESENTATION,
+                    duration: NAME_AVERAGE_PRESENTATION,
                 },
                 {
                     text: '',
@@ -363,7 +363,7 @@ var Stage3PresentAverage = function(name,average,gender,participantNum) {
         },
         labels: redScaleLabel,
         max: 100, min: -100,
-        post_trial_gap: 1000, 
+        // post_trial_gap: 1000, 
         on_finish: function () {
             var trialResultObject = {};
             trialResultObject.averagePresente = average;
@@ -403,12 +403,11 @@ var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRat
                     locked: false,
                     start: 50,
                     key_press: 'space',
-                    require_response: false,
+                    require_response: true,
                 }
             ],
         labels: ['בכלל לא', 'מאוד'],
         max: 100, min: 0,
-        post_trial_gap: 1000,
         slider_dir: 'ltr',
         on_finish:function(data)
         {   var responses = data.response;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Task</title>
+    <title>Emotional Norms Maya Tamir</title>
     <script src="jspsych-6.1.0/jspsych.js"></script>
     <script src="Image_repository.js"></script>
     <script src="Names.js"></script>
@@ -25,9 +25,10 @@
       const PRE_TRIAL_BREAK =  5 ;
 
       const STIMULUS_PRESENTATION = FASTMODE? 100 : 2000;
+      const NAME_AVERAGE_PRESENTATION = FASTMODE? 100 : 5000;
       const ITI_PRESENTATION =  FASTMODE? 100 : 4000;
-      const RESPONSE_PRESENTATION =  FASTMODE? 1000 :  4000;
-
+      const RESPONSE_PRESENTATION =  FASTMODE? 100 :  4000;
+      const RATE_THIS_PERSON_HOLD =  FASTMODE? 100 :  2000;
       //Initializing variables for logics.js
       var firstCondResponses = [];
       var firstCondDiffenece = 0;
@@ -48,7 +49,6 @@
     <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css" />
     <link rel="stylesheet" href="./questioneir.css" />
    <style>
-
 </style>
 
   </head>
@@ -129,7 +129,8 @@
       var Stage2Full = {timeline:Stage2Timeline} 
 
       var stage3Timeline = []; 
-      for (var i = 0; i < stage3Object.length; i++) {
+      const stage3ObjectNum = FASTMODE ?1 : stage3Object.length;
+      for (var i = 0; i < stage3ObjectNum; i++) {
         stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender,age,participantNum));
       }
       var Stage3Full = {timeline:stage3Timeline} 
@@ -137,8 +138,32 @@
         
       // // // fullscrenStart,fullscrenEnd
         let timeline = gender == "male" ?
-          [firstSlide,secondSlideMale,Stage1Full,calculateFirstCondDiffenece,thirdSlideMale,Stage2Full,forthSlideMale,Stage3Full,fifthSlideMale(gender,participantNum)]
-        :[firstSlide,secondSlideFemale,Stage1Full,calculateFirstCondDiffenece,thirdSlideFemale,Stage2Full,forthSlideFemale,Stage3Full,fifthSlideFemale(gender,participantNum)]
+          [welcomeSlideA,welcomeSlideB,stage1InstMaleA,stage1InstMaleB,
+          Stage1Full,
+          calculateFirstCondDiffenece,
+          stage2InstMaleA,stage2InstMaleB,
+          Stage2Full,
+          stage3InstMaleA,stage3InstMaleB,
+          Stage3Full,fifthSlideMale(gender,participantNum)]
+        :[welcomeSlideA,welcomeSlideB,stage1InstFemaleA,stage1InstFemaleB,
+          Stage1Full,
+          calculateFirstCondDiffenece,
+          stage2InstFemaleA,stage2InstFemaleB,
+          Stage2Full,
+          stage3InstFemaleA,stage3InstFemaleB,
+          Stage3Full,fifthSlideMale(gender,participantNum)]
+
+        //   let timeline = gender == "male" ?
+        //   [Stage3Full,fifthSlideMale(gender,participantNum)]
+        // :[welcomeSlideA,welcomeSlideB,stage1InstFemaleA,stage1InstFemaleB,
+        //   Stage1Full,
+        //   calculateFirstCondDiffenece,
+        //   stage2InstFemaleA,stage2InstFemaleB,
+        //   Stage2Full,
+        //   stage3InstFemaleA,stage3InstFemaleB,
+        //   Stage3Full,fifthSlideMale(gender,participantNum)]
+
+
 
       var allImages = TRAINING_NEG_IMAGES_OBJS;
       var IMAGES_TO_LOAD = [];
