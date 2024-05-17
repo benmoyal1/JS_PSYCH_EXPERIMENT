@@ -78,8 +78,47 @@ function ret_fun(gender){
         }
         return changeDefaultSpaceMessageHTML;
 }
+function ret_fun1(gender,displayContinue){
+    const changeDefaultSpaceMessageHTML = function () {
+        var contentWrapper = document.querySelector('.jspsych-content-wrapper');
+        contentWrapper.style.transform = 'scale(0.8)'; // Decrease scale (zoom out)
 
-function retForFeedback(gender){
+        var additionalMessages = document.getElementById('additional-messages');
+        if (additionalMessages) {
+            // Select the press-space message within additionalMessages
+            var pressSpaceMessage = additionalMessages.querySelector('#press-space');
+        
+            if (pressSpaceMessage) {
+                // Modify the text content of the press-space message based on gender
+            pressSpaceMessage.textContent = ''  ;
+
+            setTimeout(function() {
+                var press = gender == "male" ? "לחץ" : "לחצי";
+                pressSpaceMessage.textContent = press + ' על מקש הרווח כדי להמשיך '  ;
+            }, displayContinue);
+            }
+        
+        }
+        document.body.style.focus  = 'none';
+        var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
+        var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
+        sliderValueSpan.style.display = 'none'; 
+
+
+        var sliderInput = jspsychHtmlDiv.querySelector('input[type="range"]');
+        sliderInput.addEventListener('click', function() {
+            sliderValueSpan.style.display = 'block'; // Display the slider value span when the slider is clicked
+        });
+        }
+
+
+
+        return changeDefaultSpaceMessageHTML;
+}
+
+
+
+function retForFeedback(gender,displayContinue){
     const changeDefaultSpaceMessageHTML = function () {
         // Check if the additionalMessages element exists
         var additionalMessages = document.getElementById('additional-messages');
@@ -88,11 +127,14 @@ function retForFeedback(gender){
             var pressSpaceMessage = additionalMessages.querySelector('#press-space');
             if (pressSpaceMessage) {
                 // Modify the text content of the press-space message based on gender
+            pressSpaceMessage.textContent = ''  ;
+
+            setTimeout(function() {
                 var press = gender == "male" ? "לחץ" : "לחצי";
                 pressSpaceMessage.textContent = press + ' על מקש הרווח כדי להמשיך '  ;
+            }, displayContinue);
             }
             var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
-            // var divs = jspsychHtmlDiv.querySelectorAll('div')[3];
             var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
             sliderValueSpan.style.display = 'none';        
         }
@@ -121,7 +163,7 @@ var feedbackScreen = function(picNum,gender,text){
                 '<img src="stimuli/' + picNum + '.jpg" style="max-width: 90%; max-height:90%;" />' +
                 '</div>'
             },
-            on_load : retForFeedback(gender),
+            on_load : retForFeedback(gender,RESPONSE_PRESENTATION),
             blocks: function(){              
                 var expValues = jsPsych.data.get().values()
                 var trialIndex = expValues.length;
@@ -228,7 +270,7 @@ var otherFeedbackScreen = function(picNum,gender,theyRateText,otherCalc){
                     '<img src="stimuli/' + picNum + '.jpg" style="max-width: 90%; max-height:90%;" />' +
                     '</div>'
                 },
-            on_load : retForFeedback(gender),
+            on_load : retForFeedback(gender,RESPONSE_PRESENTATION),
             blocks: function(){              
                 return [
                     {
@@ -334,10 +376,11 @@ var Stage3PresentAverage = function(name,average,gender,participantNum) {
                 '<div style="text-align: center; color: red;">' +
                     '<div>' + averageResponseWas(name) + '</div>' +
                     '<div>'+ average + '</div>' +
+                    '<div style="display: none;">'+ average + '</div>' +
                 '</div>' +
                 '</div>';
         },
-        on_load : retForFeedback(gender),
+        on_load : retForFeedback(gender,NAME_AVERAGE_PRESENTATION),
         blocks: function(){
             return [
                 {
@@ -351,7 +394,7 @@ var Stage3PresentAverage = function(name,average,gender,participantNum) {
                     duration: NAME_AVERAGE_PRESENTATION,
                 },
                 {
-                    text: '',
+                    text:'',
                     slider: true,
                     locked: true,
                     key_press: 'space',
@@ -383,10 +426,10 @@ var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRat
             return '<div style="margin: calc(20vh) auto 0; width: 50%; text-align: center;">' + // Adjusted margin-top using calc() function
                 '<div style="text-align: center;">' +
                     '<div>' + answerTheQuestions + '</div>' +
-                '</div>' +
+                    '</div>' +
                 '</div>';
         },
-        on_load: ret_fun(gender),
+        on_load: ret_fun1(gender,RATE_THIS_PERSON_HOLD),
             blocks: [
                 {
                     text: instructionFunc(name,gender),
@@ -395,7 +438,7 @@ var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRat
                     slider:true,
                     locked: true,
                     key_press: null,
-                    duration:2000,
+                    duration:RATE_THIS_PERSON_HOLD,
                 },
                 {
                     text: instructionFunc(name,gender),
