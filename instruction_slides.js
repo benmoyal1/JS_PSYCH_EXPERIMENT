@@ -1,8 +1,3 @@
-// Instruction slides
-const WELCOME_HOLD = FASTMODE? 3000 : 20000;
-const STAGE_1_INSTRUCTION_HOLD = FASTMODE? 3000 : 45000;
-const STAGE_2_INSTRUCTION_HOLD = FASTMODE? 3000 : 35000;
-const STAGE_3_INSTRUCTION_HOLD = FASTMODE? 3000 : 45000;
 
 var welcomeSlideA = {
     type: 'html-keyboard-response',

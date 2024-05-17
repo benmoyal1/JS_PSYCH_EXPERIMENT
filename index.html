@@ -20,16 +20,24 @@
       const STAGE_3_INT = 3;
 
       //Fast mode?
-      const FASTMODE = false;
+      const FASTMODE = true;
 
       //Waiting durations
       const PRE_TRIAL_BREAK =  5 ;
 
-      const STIMULUS_PRESENTATION = FASTMODE? 100 : 2000;
-      const NAME_AVERAGE_PRESENTATION = FASTMODE? 100 : 5000;
-      const ITI_PRESENTATION =  FASTMODE? 100 : 4000;
-      const RESPONSE_PRESENTATION =  FASTMODE? 100 :  4000;
-      const RATE_THIS_PERSON_HOLD =  FASTMODE? 100 :  2000;
+      const STIMULUS_PRESENTATION = FASTMODE? 200 : 2000;
+      const NAME_AVERAGE_PRESENTATION = FASTMODE? 200 : 5000;
+      const ITI_PRESENTATION =  FASTMODE? 200 : 4000;
+      const RESPONSE_PRESENTATION =  FASTMODE? 2000 :  4000;
+      const RATE_THIS_PERSON_HOLD =  FASTMODE? 2000 :  2000;
+
+
+      // Instruction slides
+        const WELCOME_HOLD = FASTMODE? 1000 : 20000;
+        const STAGE_1_INSTRUCTION_HOLD = FASTMODE? 1000 : 45000;
+        const STAGE_2_INSTRUCTION_HOLD = FASTMODE? 1000 : 35000;
+        const STAGE_3_INSTRUCTION_HOLD = FASTMODE? 1000 : 45000;
+
       //Initializing variables for logics.js
       var firstCondResponses = [];
       var firstCondDiffenece = 0;
@@ -84,7 +92,7 @@
 
         //Create experiment objects
         var stage1Objects = FASTMODE
-          ? [TRAINING_NEG_IMAGES_OBJS[0]]
+          ? [TRAINING_NEG_IMAGES_OBJS[0],TRAINING_NEG_IMAGES_OBJS[1]]
           : BASELINE_NEG_IMAGES_OBJS;
 
         var stage2Objects = FASTMODE
@@ -106,7 +114,8 @@
         }
 
       var stage3Object = []
-      for (var i = 0;i < STAGE_3_TRIALS_NUM ;i++){
+    //   STAGE_3_TRIALS_NUM
+      for (var i = 0;i < 2 ;i++){
           var stage3TrialObject = {
             name:names[names.length - i -1 ],
             cond : cond,
@@ -199,7 +208,32 @@
   </body>
 </html>
 <!-- 
-participantNum->Subject
-condition ->
-check_baseline_avg ->
+
+Stage 2:
+    add IsYouTrial feature when 
+    participant is trialed - 1
+    other name is asked about - 0
+
+Stage 3:
+    isMex feature - binary 
+    if average presented is more extreme - 1
+    if average presented is less extreme - 0
+
+feature changing
+    likable ->judgeQuestion.likeable.Value
+    competence -> judgeQuestion.competent.Value
+    trustworthynes-> judgeQuestion.judgeQuestion.trustworthy.Value.Value
+    participantNum->Subject
+    check_baseline_avg ->
+    condition ->
+    stage -> Procedure
+    1 ->
+    2 ->
+    3->
+    response -> feedbackValue 
+    spit up to 
+    [imageAndQ.slider.value,imageAndQ1.slider.value]
+    where imageAndQ is for the baseline stage and imageAndQ1 if for the learning stage
+
+
 -->
