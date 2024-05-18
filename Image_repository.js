@@ -1,5 +1,5 @@
 // average reactions for stage3
-const averageResponses = jsPsych.randomization.repeat([-65,-75,-70, -72,-68,-20,-17,-15,-22,-21],1)
+const averageResponses = jsPsych.randomization.repeat([[-65,1],[-75,1],[-70,1], [-72,1],[-68,1],[-20,0],[-17,0],[-15,0],[-22,0],[-21,0]],1)
 
 const BASELINE_NEG_IMAGES_OBJS = jsPsych.randomization.repeat(
   [

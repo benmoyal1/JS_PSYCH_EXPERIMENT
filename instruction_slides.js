@@ -124,7 +124,7 @@ var fifthSlideFemale = function(gender,participantNum) {
     type: 'html-keyboard-response',
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
         '<img src="instructions_new/instructions_5_ending_female.png" style="width:100%; height: auto;"></div>',
-    choices: none,
+    choices: null,
     response_ends_trial:false,
     on_load:function(){
         console.log(experimentResult);

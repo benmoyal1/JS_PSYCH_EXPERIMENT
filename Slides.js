@@ -209,8 +209,11 @@ var feedbackScreen = function(picNum,gender,text){
     };
 
 
-var firstCond = function (ExpObj,gender,stage,age,participantNum) {
+var firstCond = function (ExpObj,gender,stage,age,Subject) {
     var picNum = ExpObj.pic_num;
+    var ASKED_ABOUT_PARTICIPANT = 1 ;
+    var procedure = stage == 1? "trainProc" : "ExpBlocProc";
+
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
@@ -242,18 +245,25 @@ var firstCond = function (ExpObj,gender,stage,age,participantNum) {
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
-                    participantNum:participantNum,
+                    Subject:Subject,
                     age:age,
                     gender : gender,
-                    stage:stage,
-                    imageNum:picNum,
-                    PredictionOrSelf:"Self Rating",
-                    response :trialResponse,
+                    procedure:procedure,
+                    condition:condition,
+                    IsYouTrial:ASKED_ABOUT_PARTICIPANT,
+                    feedbackValue :trialResponse,
                 }
-                if(stage ==1){firstCondResponses.push(trialResponse);}
+                if(stage ==1){
+                    firstCondResponses.push(trialResponse);
+                    trialResultObject["imageAndQ.Slider1.Value" ] = trialResponse;
+                }
                 if(stage ==2){
-                    trialResultObject.baseline = firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0);}
+                    trialResultObject.baseline = baselineAverage;
+                    trialResultObject["imageAndQ1.Slider1.Value" ] = trialResponse;
+                
+                }
                 experimentResult.push(trialResultObject);
+                console.log(condition);
             }
         },feedbackScreen(picNum,gender,thisIsYourResponseText(gender))]
     };
@@ -312,13 +322,16 @@ var otherFeedbackScreen = function(picNum,gender,theyRateText,otherCalc){
         }
     };
 
-var otherCond = function (ExpObj,gender,age,participantNum) {
+var otherCond = function (ExpObj,gender,age,Subject) {
     var objName = ExpObj.name;
     var objCond = ExpObj.cond;
     var picNum = ExpObj.pic_num;
     var otherCalc = calculateFeedback(ExpObj.Mean, ExpObj["Std. Deviation"],objCond);
     var howOtherFeltQu =howDidTheyRespondHTML(ExpObj.name); 
     var TheyRateText = howTheyRatedHTML(objName,gender);
+    var ASKED_ABOUT_PARTICIPANT = 0;
+    var procedure = "ExpBlocProc";
+
     return {
         timeline: [fixation, {
             type: 'html-slider-response-modified',
@@ -350,15 +363,17 @@ var otherCond = function (ExpObj,gender,age,participantNum) {
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
-                    participantNum:participantNum,
+                    Subject:Subject,
                     age:age,
+                    condition:objCond,
                     gender : gender,
-                    stage:2,
                     imageNum:ExpObj.pic_num,
-                    PredictionOrSelf:"Self Rating",
+                    procedure:procedure,
+                    condition:condition,
+                    IsYouTrial:ASKED_ABOUT_PARTICIPANT,
                     otherCalc:otherCalc,
-                    response :trialResponse,
-                    baseline : firstCondResponses.reduce((acc, curr) => acc + parseInt(curr), 0),
+                    feedbackValue :trialResponse,
+                    baseline : baselineAverage
                 }
                 firstCondResponses.push(trialResponse);
                 experimentResult.push(trialResultObject);
@@ -368,7 +383,7 @@ var otherCond = function (ExpObj,gender,age,participantNum) {
     };
 };
 
-var Stage3PresentAverage = function(name,average,gender,participantNum) {
+var Stage3PresentAverage = function(name,average,gender,Subject,isMex) {
     return {
         type: 'html-slider-response-modified',
         stimulus: function () {
@@ -406,13 +421,14 @@ var Stage3PresentAverage = function(name,average,gender,participantNum) {
         },
         labels: redScaleLabel,
         max: 100, min: -100,
-        // post_trial_gap: 1000, 
         on_finish: function () {
             var trialResultObject = {};
             trialResultObject.averagePresente = average;
-            trialResultObject.participantNum = participantNum;
+            trialResultObject.Subject = Subject;
             trialResultObject.gender = gender;
             trialResultObject.stage = 3;
+            trialResultObject.procedure = 'JudjementBlockProc';
+            trialResultObject.isMex = isMex;
             experimentResult.push(trialResultObject);
         }
            
@@ -463,12 +479,12 @@ var Stage3RateThisPerson = function (name,gender,age,instructionFunc,propertyRat
 };
 
 
-var stage3SinglePerson = function (Person,gender,age,participantNum) {
+var stage3SinglePerson = function (Person,gender,age,Subject) {
     var finalArray = [fixation];
-    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender,participantNum));
-    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateLikablility,"Likable"));
-    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateTrustworthiness,"trustworthiness"));
-    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateCompenetce,"competence"));
+    finalArray.push(Stage3PresentAverage(Person.name,Person.average,gender,Subject,Person.isMex));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateLikablility,"judgeQuestion.likeable.Value"));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateTrustworthiness,"judgeQuestion.trustworthy.Value"));
+    finalArray.push(Stage3RateThisPerson(Person.name,gender,age,rateCompenetce,"judgeQuestion.competent.Value"));
     return {
         timeline: finalArray
     }

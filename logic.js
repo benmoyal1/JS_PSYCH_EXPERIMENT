@@ -5,7 +5,7 @@ var calculateFirstCondDiffenece = {
         for (var i = 0; i < firstCondResponses.length; i++) {
             baselineSum += parseFloat(firstCondResponses[i]);
         }
-        var baselineAverage = baselineSum / firstCondResponses.length; // U_i'
+        baselineAverage = baselineSum / firstCondResponses.length; // U_i'
         firstCondDiffenece =  negativeImageAverage - baselineAverage; // (U -U_i')
     },
 }
@@ -25,10 +25,10 @@ var calculateFeedback = function (mean, SD, cond){
     return feedback;
 }
 
-// if SD < sqrt(5) kick the participart 
 
 
-async function sendDataToServer(dataJson,gender,participantNum) {
+
+async function sendDataToServer(dataJson,gender,Subject) {
     try {
         const devUrl = 'http://localhost:3000/';
         const serverUrl = 'https://express-backend-exp.vercel.app/';
@@ -38,7 +38,7 @@ async function sendDataToServer(dataJson,gender,participantNum) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ data: dataJson,
-                "participantNum":participantNum,
+                "Subject":Subject,
                 "gender":gender})
         }); 
         const result = await response.json(); // Parse response as JSON

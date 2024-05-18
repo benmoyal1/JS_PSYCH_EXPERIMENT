@@ -20,31 +20,34 @@
       const STAGE_3_INT = 3;
 
       //Fast mode?
-      const FASTMODE = true;
+      const FASTMODE = false;
 
       //Waiting durations
       const PRE_TRIAL_BREAK =  5 ;
 
-      const STIMULUS_PRESENTATION = FASTMODE? 200 : 2000;
-      const NAME_AVERAGE_PRESENTATION = FASTMODE? 200 : 5000;
-      const ITI_PRESENTATION =  FASTMODE? 200 : 4000;
-      const RESPONSE_PRESENTATION =  FASTMODE? 2000 :  4000;
-      const RATE_THIS_PERSON_HOLD =  FASTMODE? 2000 :  2000;
+      const STIMULUS_PRESENTATION = FASTMODE? 0 : 2000;
+      const NAME_AVERAGE_PRESENTATION = FASTMODE? 0 : 5000;
+      const ITI_PRESENTATION =  FASTMODE? 0 : 4000;
+      const RESPONSE_PRESENTATION =  FASTMODE? 0 :  4000;
+      const RATE_THIS_PERSON_HOLD =  FASTMODE? 0 :  2000;
 
 
       // Instruction slides
-        const WELCOME_HOLD = FASTMODE? 1000 : 20000;
-        const STAGE_1_INSTRUCTION_HOLD = FASTMODE? 1000 : 45000;
-        const STAGE_2_INSTRUCTION_HOLD = FASTMODE? 1000 : 35000;
-        const STAGE_3_INSTRUCTION_HOLD = FASTMODE? 1000 : 45000;
+        const WELCOME_HOLD = FASTMODE? 0 : 20000;
+        const STAGE_1_INSTRUCTION_HOLD = FASTMODE? 0 : 45000;
+        const STAGE_2_INSTRUCTION_HOLD = FASTMODE? 0 : 35000;
+        const STAGE_3_INSTRUCTION_HOLD = FASTMODE? 0 : 45000;
 
       //Initializing variables for logics.js
       var firstCondResponses = [];
+      var baselineAverage = 0;
       var firstCondDiffenece = 0;
       const negativeImageAverage = -42.68;
 
       // initializing the result json
       var experimentResult = [];
+
+      var condition = 0;
     </script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
@@ -84,7 +87,7 @@
     
     <script>
       // this funciton starts the experiment
-      function startExperiment(gender,age,cond,participantNum){
+      function startExperiment(gender,age,cond,genderSubject,Subject){
         const names =
         gender == "male"
           ? jsPsych.randomization.repeat(M_names, 1)
@@ -114,26 +117,26 @@
         }
 
       var stage3Object = []
-    //   STAGE_3_TRIALS_NUM
-      for (var i = 0;i < 2 ;i++){
+      const stage3len = FASTMODE? 2:STAGE_3_TRIALS_NUM;
+      for (var i = 0;i < stage3len ;i++){
           var stage3TrialObject = {
             name:names[names.length - i -1 ],
-            cond : cond,
-            average:averageResponses[averageResponses.length -i -1 ]
+            isMex : averageResponses[averageResponses.length -i -1 ][1],
+            average:averageResponses[averageResponses.length -i -1 ][0]
           }
           stage3Object.push(stage3TrialObject);
         }
 
         Stage1Timeline = [];
         for (var i = 0; i < stage1Objects.length; i++) {
-          Stage1Timeline.push(firstCond(stage1Objects[i],gender,STAGE_1_INT,age,participantNum));
+          Stage1Timeline.push(firstCond(stage1Objects[i],gender,STAGE_1_INT,age,Subject));
         }
         var Stage1Full = {timeline:Stage1Timeline} 
         Stage2Timeline = [];
       for (var i = 0; i < stage2Objects.self.length; i++) {
         Stage2Timeline.push(
-          firstCond(stage2Objects.self[i],gender,STAGE_2_INT,age,participantNum),
-          otherCond(stage2Objects.other[i],gender,age,participantNum)
+          firstCond(stage2Objects.self[i],gender,STAGE_2_INT,age,Subject),
+          otherCond(stage2Objects.other[i],gender,age,Subject)
         );
       }
       var Stage2Full = {timeline:Stage2Timeline} 
@@ -141,7 +144,7 @@
       var stage3Timeline = []; 
       const stage3ObjectNum = FASTMODE ?1 : stage3Object.length;
       for (var i = 0; i < stage3ObjectNum; i++) {
-        stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender,age,participantNum));
+        stage3Timeline.push(stage3SinglePerson(stage3Object[i],gender,age,Subject));
       }
       var Stage3Full = {timeline:stage3Timeline} 
 
@@ -154,24 +157,24 @@
           stage2InstMaleA,stage2InstMaleB,
           Stage2Full,
           stage3InstMaleA,stage3InstMaleB,
-          Stage3Full,fifthSlideMale(gender,participantNum)]
+          Stage3Full,fifthSlideMale(gender,genderSubject)]
         :[welcomeSlideA,welcomeSlideB,stage1InstFemaleA,stage1InstFemaleB,
           Stage1Full,
           calculateFirstCondDiffenece,
           stage2InstFemaleA,stage2InstFemaleB,
           Stage2Full,
           stage3InstFemaleA,stage3InstFemaleB,
-          Stage3Full,fifthSlideMale(gender,participantNum)]
+          Stage3Full,fifthSlideFemale(gender,genderSubject)]
 
         //   let timeline = gender == "male" ?
-        //   [Stage3Full,fifthSlideMale(gender,participantNum)]
+        //   [Stage3Full,fifthSlideMale(gender,Subject)]
         // :[welcomeSlideA,welcomeSlideB,stage1InstFemaleA,stage1InstFemaleB,
         //   Stage1Full,
         //   calculateFirstCondDiffenece,
         //   stage2InstFemaleA,stage2InstFemaleB,
         //   Stage2Full,
         //   stage3InstFemaleA,stage3InstFemaleB,
-        //   Stage3Full,fifthSlideMale(gender,participantNum)]
+        //   Stage3Full,fifthSlideMale(gender,Subject)]
 
 
 
@@ -183,6 +186,9 @@
         jsPsych.init({
           timeline: timeline,
           preload_images: IMAGES_TO_LOAD,
+          on_finish:function(){
+            console.log(experimentResult);
+          },
         });
       }
 
@@ -192,48 +198,51 @@
         var kv = await getParticipantNum();
         const maleCounter = kv.maleCounter
         const femaleCounter = kv.femaleCounter
-
-        var gender = document.querySelector('input[name="gender"]:checked').value;        
-        const participantNum = gender == "male" ?maleCounter:femaleCounter;
-        var cond = participantNum % 2 == 0 ? 1 : -1;
+        
         var age = document.getElementById('age').value;
+        var gender = document.querySelector('input[name="gender"]:checked').value;     
+
+        const genderSubject = gender == "male" ?maleCounter:femaleCounter;
+        const Subject = maleCounter + femaleCounter;
+        var cond = Subject % 2 == 0 ? 1 : -1;
+        condition = cond;
         console.log(gender);
-        console.log(participantNum);
+        console.log(genderSubject);
+        console.log(Subject);
         if(0> age || age > 85){return;}
     //   // Start the experiment with the collected gender data
-        startExperiment(gender,age,cond,participantNum);
+        startExperiment(gender,age,cond,genderSubject,Subject);
       });
     
     </script>
   </body>
 </html>
 <!-- 
-
-Stage 2:
-    add IsYouTrial feature when 
-    participant is trialed - 1
-    other name is asked about - 0
+TODO
+what does condition means in case of 1 and 0 what is more extreme and what is less?
 
 Stage 3:
     isMex feature - binary 
     if average presented is more extreme - 1
     if average presented is less extreme - 0
 
-feature changing
-    likable ->judgeQuestion.likeable.Value
-    competence -> judgeQuestion.competent.Value
-    trustworthynes-> judgeQuestion.judgeQuestion.trustworthy.Value.Value
-    participantNum->Subject
-    check_baseline_avg ->
-    condition ->
-    stage -> Procedure
-    1 ->
-    2 ->
-    3->
-    response -> feedbackValue 
-    spit up to 
-    [imageAndQ.slider.value,imageAndQ1.slider.value]
-    where imageAndQ is for the baseline stage and imageAndQ1 if for the learning stage
+    Done 
+      response -> feedbackValue 
+      likable ->judgeQuestion.likeable.Value
+      competence -> judgeQuestion.competent.Value
+      trustworthynes-> judgeQuestion.judgeQuestion.trustworthy.Value.Value
+      participantNum->Subject
+      condition ->
+      stage -> Procedure
+    
+      Stage 2:
+        add IsYouTrial feature when 
+        participant is trialed - 1
+        other name is asked about - 0
 
-
--->
+      spit up to 
+        [imageAndQ.slider.value,imageAndQ1.slider.value]
+        where imageAndQ is for the baseline stage and imageAndQ1 if for the learning stage
+    
+    
+  -->
