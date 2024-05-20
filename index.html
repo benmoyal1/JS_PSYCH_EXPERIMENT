@@ -139,6 +139,7 @@
           otherCond(stage2Objects.other[i],gender,age,Subject)
         );
       }
+      Stage2Timeline = jsPsych.randomization.repeat(Stage2Timeline,1);
       var Stage2Full = {timeline:Stage2Timeline} 
 
       var stage3Timeline = []; 

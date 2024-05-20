@@ -4,6 +4,19 @@ var welcomeSlideA = {
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
         '<img src="instructions_new/instructions_1_opening_page.png" style="width:100%; height: auto;"></div>',
     choices: null,
+    on_load:function(){
+            // Enter fullscreen mode on finishing this trial
+    var element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) { // Firefox
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) { // IE/Edge
+      element.msRequestFullscreen();
+    }
+    },
     response_ends_trial:false,
     trial_duration:WELCOME_HOLD,
 };
@@ -132,12 +145,12 @@ var fifthSlideFemale = function(gender,participantNum) {
     }}
 };
 
-// var fullscrenStart = {
-//     type: 'fullscreen',
-//     fullscreen_mode: true
-//   };
-//   // exit fullscreen mode
-//   var fullscrenEnd = {
-//     type: 'fullscreen',
-//     fullscreen_mode: false
-//   };
+var fullscrenStart = {
+    type: 'fullscreen',
+    fullscreen_mode: true
+  };
+  // exit fullscreen mode
+  var fullscrenEnd = {
+    type: 'fullscreen',
+    fullscreen_mode: false
+  };
