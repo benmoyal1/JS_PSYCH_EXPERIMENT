@@ -152,14 +152,14 @@
         
       // // // fullscrenStart,fullscrenEnd
         let timeline = gender == "male" ?
-          [welcome_trial,welcomeSlideA,welcomeSlideB,stage1InstMaleA,stage1InstMaleB,
+          [welcomeSlideA,welcomeSlideB,stage1InstMaleA,stage1InstMaleB,
           Stage1Full,
           calculateFirstCondDiffenece,
           stage2InstMaleA,stage2InstMaleB,
           Stage2Full,
           stage3InstMaleA,stage3InstMaleB,
           Stage3Full,fifthSlideMale(gender,genderSubject)]
-        :[welcome_trial,welcomeSlideA,welcomeSlideB,stage1InstFemaleA,stage1InstFemaleB,
+        :[welcomeSlideA,welcomeSlideB,stage1InstFemaleA,stage1InstFemaleB,
           Stage1Full,
           calculateFirstCondDiffenece,
           stage2InstFemaleA,stage2InstFemaleB,
@@ -195,6 +195,31 @@
 
       document.getElementById("genderForm").addEventListener("submit",async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
+            // Enter fullscreen mode on finishing this trial
+    var element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    } else if (element.mozRequestFullScreen) { // Firefox
+      element.mozRequestFullScreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
+      element.webkitRequestFullscreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    } else if (element.msRequestFullscreen) { // IE/Edge
+      element.msRequestFullscreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    }
+
+
         // gets gender age and number of participant and caclulate cond 
         var kv = await getParticipantNum();
         const maleCounter = kv.maleCounter
