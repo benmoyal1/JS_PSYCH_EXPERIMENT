@@ -135,8 +135,8 @@ var fifthSlideFemale = function(gender,participantNum) {
 // Initial interaction trial to trigger full-screen mode
 var welcome_trial = {
   type: 'html-button-response',
-  stimulus: 'Press the button to start the experiment',
-  choices: ['Start'],
+  stimulus: '',
+  choices: ['להתחלת הניסוי נא להקיש כאן'],
   on_finish: function(){
     // Enter fullscreen mode on finishing this trial
     var element = document.documentElement;
