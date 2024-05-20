@@ -66,7 +66,8 @@ function ret_fun(gender){
             }
         
         }
-        document.body.style.focus  = 'none';
+        // document.body.style.focus  = 'none';
+        document.body.focus();
         var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
         var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
         sliderValueSpan.style.display = 'none'; 
@@ -99,7 +100,8 @@ function ret_fun1(gender,displayContinue){
             }
         
         }
-        document.body.style.focus  = 'none';
+        // document.body.style.focus  = 'none';
+        document.body.focus();
         var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
         var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
         sliderValueSpan.style.display = 'none'; 
@@ -120,6 +122,7 @@ function ret_fun1(gender,displayContinue){
 
 function retForFeedback(gender,displayContinue){
     const changeDefaultSpaceMessageHTML = function () {
+        document.body.focus();
         // Check if the additionalMessages element exists
         var additionalMessages = document.getElementById('additional-messages');
         if (additionalMessages) {
@@ -136,7 +139,8 @@ function retForFeedback(gender,displayContinue){
             }
             var jspsychHtmlDiv = document.getElementById('jspsych-html-slider-response-container');
             var sliderValueSpan = jspsychHtmlDiv.querySelector('div > #slider-value');
-            sliderValueSpan.style.display = 'none';        
+            sliderValueSpan.style.display = 'none';    
+            document.body.focus();    
         }
         }
         return changeDefaultSpaceMessageHTML;
