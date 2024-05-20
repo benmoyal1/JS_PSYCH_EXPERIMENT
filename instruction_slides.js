@@ -4,19 +4,6 @@ var welcomeSlideA = {
     stimulus: '<div style="background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">' +
         '<img src="instructions_new/instructions_1_opening_page.png" style="width:100%; height: auto;"></div>',
     choices: null,
-    on_load:function(){
-            // Enter fullscreen mode on finishing this trial
-    var element = document.documentElement;
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) { // Firefox
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
-      element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) { // IE/Edge
-      element.msRequestFullscreen();
-    }
-    },
     response_ends_trial:false,
     trial_duration:WELCOME_HOLD,
 };
@@ -145,12 +132,43 @@ var fifthSlideFemale = function(gender,participantNum) {
     }}
 };
 
-var fullscrenStart = {
-    type: 'fullscreen',
-    fullscreen_mode: true
-  };
-  // exit fullscreen mode
-  var fullscrenEnd = {
-    type: 'fullscreen',
-    fullscreen_mode: false
-  };
+// Initial interaction trial to trigger full-screen mode
+var welcome_trial = {
+  type: 'html-button-response',
+  stimulus: 'Press the button to start the experiment',
+  choices: ['Start'],
+  on_finish: function(){
+    // Enter fullscreen mode on finishing this trial
+    var element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    } else if (element.mozRequestFullScreen) { // Firefox
+      element.mozRequestFullScreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
+      element.webkitRequestFullscreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    } else if (element.msRequestFullscreen) { // IE/Edge
+      element.msRequestFullscreen().then(() => {
+        document.body.focus();
+        maintainBodyFocus();
+      });
+    }
+  }
+};
+
+// Function to maintain focus on the body element
+function maintainBodyFocus() {
+  document.addEventListener('focusin', function(event) {
+    if (event.target !== document.body) {
+      document.body.focus();
+    }
+  });
+}
