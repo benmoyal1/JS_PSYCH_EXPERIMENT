@@ -21,18 +21,14 @@
 
       //Fast mode?
       const FASTMODE = false;
-
       //Waiting durations
       const PRE_TRIAL_BREAK =  5 ;
-
       const STIMULUS_PRESENTATION = FASTMODE? 0 : 2000;
       const NAME_AVERAGE_PRESENTATION = FASTMODE? 0 : 5000;
       const ITI_PRESENTATION =  FASTMODE? 0 : 4000;
       const RESPONSE_PRESENTATION =  FASTMODE? 0 :  4000;
       const RATE_THIS_PERSON_HOLD =  FASTMODE? 0 :  2000;
-
-
-      // Instruction slides
+      // Instruction slides HOLD
         const WELCOME_HOLD = FASTMODE? 0 : 20000;
         const STAGE_1_INSTRUCTION_HOLD = FASTMODE? 0 : 45000;
         const STAGE_2_INSTRUCTION_HOLD = FASTMODE? 0 : 35000;
@@ -46,8 +42,8 @@
 
       // initializing the result json
       var experimentResult = [];
-
       var condition = 0;
+
     </script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
@@ -243,32 +239,3 @@
     </script>
   </body>
 </html>
-<!-- 
-TODO
-what does condition means in case of 1 and 0 what is more extreme and what is less?
-
-Stage 3:
-    isMex feature - binary 
-    if average presented is more extreme - 1
-    if average presented is less extreme - 0
-
-    Done 
-      response -> feedbackValue 
-      likable ->judgeQuestion.likeable.Value
-      competence -> judgeQuestion.competent.Value
-      trustworthynes-> judgeQuestion.judgeQuestion.trustworthy.Value.Value
-      participantNum->Subject
-      condition ->
-      stage -> Procedure
-    
-      Stage 2:
-        add IsYouTrial feature when 
-        participant is trialed - 1
-        other name is asked about - 0
-
-      spit up to 
-        [imageAndQ.slider.value,imageAndQ1.slider.value]
-        where imageAndQ is for the baseline stage and imageAndQ1 if for the learning stage
-    
-    
-  -->
