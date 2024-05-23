@@ -20,7 +20,7 @@
       const STAGE_3_INT = 3;
 
       //Fast mode?
-      const FASTMODE = false;
+      const FASTMODE = true;
       //Waiting durations
       const PRE_TRIAL_BREAK =  5 ;
       const STIMULUS_PRESENTATION = FASTMODE? 0 : 2000;
@@ -43,7 +43,7 @@
       // initializing the result json
       var experimentResult = [];
       var condition = 0;
-
+      var trial_index = 1;
     </script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>

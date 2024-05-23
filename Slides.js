@@ -247,6 +247,7 @@ var firstCond = function (ExpObj,gender,stage,age,Subject) {
             labels: scaleLabel,
             max: 100, min: -100,
             on_finish: function (data) {
+                console.log(trial_index);
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
                     Subject:Subject,
@@ -256,6 +257,7 @@ var firstCond = function (ExpObj,gender,stage,age,Subject) {
                     condition:condition,
                     IsYouTrial:ASKED_ABOUT_PARTICIPANT,
                     feedbackValue :trialResponse,
+                    Block:trial_index++ 
                 }
                 if(stage ==1){
                     firstCondResponses.push(trialResponse);
@@ -267,7 +269,6 @@ var firstCond = function (ExpObj,gender,stage,age,Subject) {
                 
                 }
                 experimentResult.push(trialResultObject);
-                console.log(condition);
             }
         },feedbackScreen(picNum,gender,thisIsYourResponseText(gender))]
     };
@@ -366,6 +367,7 @@ var otherCond = function (ExpObj,gender,age,Subject) {
             max: 100, min: -100,
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
+                console.log(trial_index);
                 var trialResultObject = {
                     Subject:Subject,
                     age:age,
@@ -377,7 +379,8 @@ var otherCond = function (ExpObj,gender,age,Subject) {
                     IsYouTrial:ASKED_ABOUT_PARTICIPANT,
                     otherCalc:otherCalc,
                     feedbackValue :trialResponse,
-                    baseline : baselineAverage
+                    baseline : baselineAverage,
+                    Block:trial_index++ // 5 is the trials prior to the actual experiment
                 }
                 firstCondResponses.push(trialResponse);
                 experimentResult.push(trialResultObject);
@@ -426,6 +429,7 @@ var Stage3PresentAverage = function(name,average,gender,Subject,isMex) {
         labels: redScaleLabel,
         max: 100, min: -100,
         on_finish: function () {
+            console.log(trial_index);
             var trialResultObject = {};
             trialResultObject.averagePresente = average;
             trialResultObject.Subject = Subject;
@@ -433,6 +437,8 @@ var Stage3PresentAverage = function(name,average,gender,Subject,isMex) {
             trialResultObject.stage = 3;
             trialResultObject.procedure = 'JudjementBlockProc';
             trialResultObject.isMex = isMex;
+            trialResultObject.Block = trial_index++;
+
             experimentResult.push(trialResultObject);
         }
            
