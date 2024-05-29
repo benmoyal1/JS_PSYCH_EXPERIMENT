@@ -247,7 +247,6 @@ var firstCond = function (ExpObj,gender,stage,age,Subject) {
             labels: scaleLabel,
             max: 100, min: -100,
             on_finish: function (data) {
-                console.log(trial_index);
                 var trialResponse = data.response[1].slider; // trial response
                 var trialResultObject = {
                     Subject:Subject,
@@ -367,7 +366,6 @@ var otherCond = function (ExpObj,gender,age,Subject) {
             max: 100, min: -100,
             on_finish: function (data) {
                 var trialResponse = data.response[1].slider; // trial response
-                console.log(trial_index);
                 var trialResultObject = {
                     Subject:Subject,
                     age:age,
@@ -429,7 +427,6 @@ var Stage3PresentAverage = function(name,average,gender,Subject,isMex) {
         labels: redScaleLabel,
         max: 100, min: -100,
         on_finish: function () {
-            console.log(trial_index);
             var trialResultObject = {};
             trialResultObject.averagePresente = average;
             trialResultObject.Subject = Subject;

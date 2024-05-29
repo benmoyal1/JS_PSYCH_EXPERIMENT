@@ -146,7 +146,7 @@
       var Stage3Full = {timeline:stage3Timeline} 
 
         
-      // // // fullscrenStart,fullscrenEnd
+      // // fullscrenStart,fullscrenEnd
         let timeline = gender == "male" ?
           [welcomeSlideA,welcomeSlideB,stage1InstMaleA,stage1InstMaleB,
           Stage1Full,
@@ -189,6 +189,8 @@
         });
       }
 
+
+
       document.getElementById("genderForm").addEventListener("submit",async function(event) {
         event.preventDefault(); // Prevent default form submission behavior
             // Enter fullscreen mode on finishing this trial
@@ -228,9 +230,7 @@
         const Subject = maleCounter + femaleCounter;
         var cond = Subject % 2 == 0 ? 1 : -1;
         condition = cond;
-        console.log(gender);
-        console.log(genderSubject);
-        console.log(Subject);
+
         if(0> age || age > 85){return;}
     //   // Start the experiment with the collected gender data
         startExperiment(gender,age,cond,genderSubject,Subject);
