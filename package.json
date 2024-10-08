@@ -5,5 +5,9 @@
     "dotenv": "^16.4.5",
     "jspsych": "^7.3.4",
     "vercel": "^34.1.8"
+  },
+  "scripts": {
+    "deploy": "npm run build && aws s3 sync build/ s3://data-telegram-twitter --delete",
+    "update":"git add . && git commit -m \"production\" && git push"
   }
 }
